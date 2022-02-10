@@ -10,20 +10,25 @@
             alt="V!U!E! Pizza"
           />
         </div>
-        <h1>Добро пожаловать!</h1>
+        <h1>Добро пожаловать!!</h1>
         <p>
           Это проект V!U!E! Pizza для обучения на профессиональном
           онлайн‑курсе<br />
           <b>«Vue.js для опытных разработчиков».</b>
         </p>
+        <Index />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Index from "@/views/Index";
 export default {
   name: "App",
+  components: {
+    Index,
+  },
 };
 </script>
 
