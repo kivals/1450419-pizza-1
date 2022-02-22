@@ -6,16 +6,25 @@
         :class="`pizza--foundation--${selectedDough}-${selectedSauce}`"
       >
         <div class="pizza__wrapper">
-          <div
-            v-for="ingredient of selectedIngredients"
-            :key="ingredient.id"
-            class="pizza__filling"
-            :class="[
-              `pizza__filling--${ingredient.type}`,
-              `${ingredient.count === 2 ? 'pizza__filling--second' : ''}`,
-              `${ingredient.count === 3 ? 'pizza__filling--third' : ''}`,
-            ]"
-          ></div>
+          <template v-for="ingredient of selectedIngredients">
+            <div
+              :key="ingredient.id"
+              class="pizza__filling"
+              :class="`pizza__filling--${ingredient.type}`"
+            ></div>
+            <div
+              v-if="ingredient.count === 2"
+              :key="`${ingredient.id}-second`"
+              class="pizza__filling pizza__filling--second"
+              :class="`pizza__filling--${ingredient.type}`"
+            ></div>
+            <div
+              v-if="ingredient.count === 3"
+              :key="`${ingredient.id}-third`"
+              class="pizza__filling pizza__filling--third"
+              :class="`pizza__filling--${ingredient.type}`"
+            ></div>
+          </template>
         </div>
       </div>
     </div>
