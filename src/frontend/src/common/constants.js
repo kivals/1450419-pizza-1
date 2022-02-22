@@ -97,3 +97,6 @@ export const sizeTypes = [
     value: "big",
   },
 ];
+
+export const DATA_TRANSFER_PAYLOAD = "drag-payload";
+export const MAX_INGREDIENT_COUNT = 3;
