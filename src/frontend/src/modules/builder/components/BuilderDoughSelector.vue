@@ -14,6 +14,7 @@
             type="radio"
             name="dough"
             :value="d.type"
+            :checked="d.id === selectedDough.id"
             class="visually-hidden"
             @click="$emit('select', d.id)"
           />
@@ -31,6 +32,10 @@ export default {
   props: {
     doughList: {
       type: Array,
+      required: true,
+    },
+    selectedDough: {
+      type: Object,
       required: true,
     },
   },

@@ -3,14 +3,23 @@
     <div class="content__wrapper">
       <h1 class="title title--big">Конструктор пиццы</h1>
 
-      <BuilderDoughSelector :dough-list="dough" @select="selectDough" />
+      <BuilderDoughSelector
+        :dough-list="dough"
+        :selected-dough="selectedData.dough"
+        @select="selectDough"
+      />
 
-      <BuilderSizeSelector :sizes="sizes" @select="selectSize" />
+      <BuilderSizeSelector
+        :sizes="sizes"
+        :selected-size="selectedData.size"
+        @select="selectSize"
+      />
 
       <BuilderIngredientsSelector
         :ingredients="ingredients"
-        :selected="selectedData.ingredients"
+        :selected-ingredients="selectedData.ingredients"
         :sauces="sauces"
+        :selected-sauce="selectedData.sauce"
         @selectSauce="selectSauce"
         @addIngredient="addIngredient"
         @removeIngredient="removeIngredient"
@@ -80,6 +89,11 @@ export default {
         sauce: {},
       },
     };
+  },
+  created() {
+    this.selectedData.dough = this.dough[0];
+    this.selectedData.size = this.sizes[0];
+    this.selectedData.sauce = this.sauces[0];
   },
   computed: {
     isToCook() {

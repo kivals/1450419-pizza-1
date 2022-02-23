@@ -16,6 +16,7 @@
               type="radio"
               name="sauce"
               :value="sauce.type"
+              :checked="sauce.id === selectedSauce.id"
               @click="$emit('selectSauce', sauce.id)"
             />
             <span>{{ sauce.name }}</span>
@@ -50,7 +51,7 @@ export default {
       type: Array,
       required: true,
     },
-    selected: {
+    selectedIngredients: {
       type: Array,
       default: () => [],
     },
@@ -58,12 +59,18 @@ export default {
       type: Array,
       required: true,
     },
+    selectedSauce: {
+      type: Object,
+      required: true,
+    },
   },
   computed: {
     normalizeIngredients() {
       return this.ingredients.map((ing) => ({
         ...ing,
-        count: this.selected.find((selIng) => selIng.id === ing.id)?.count || 0,
+        count:
+          this.selectedIngredients.find((selIng) => selIng.id === ing.id)
+            ?.count || 0,
       }));
     },
   },

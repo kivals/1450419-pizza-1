@@ -45,11 +45,11 @@ export default {
     },
     selectedSauce: {
       type: String,
-      default: "tomato",
+      required: true,
     },
     selectedDough: {
       type: String,
-      default: "light",
+      required: true,
     },
   },
   methods: {
