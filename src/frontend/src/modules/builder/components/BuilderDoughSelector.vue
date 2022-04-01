@@ -5,21 +5,21 @@
 
       <div class="sheet__content dough">
         <label
-          v-for="d in doughList"
-          :key="d.id"
+          v-for="{ id, type, name, description } in dough"
+          :key="id"
           class="dough__input"
-          :class="`dough__input--${d.type}`"
+          :class="`dough__input--${type}`"
         >
           <input
             type="radio"
             name="dough"
-            :value="d.type"
-            :checked="d.id === selectedDough.id"
+            :value="type"
+            :checked="id === selectedDoughId"
             class="visually-hidden"
-            @click="$emit('select', d.id)"
+            @click="selectDough(id)"
           />
-          <b>{{ d.name }}</b>
-          <span>{{ d.description }}</span>
+          <b>{{ name }}</b>
+          <span>{{ description }}</span>
         </label>
       </div>
     </div>
@@ -27,17 +27,15 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "BuilderDoughSelector",
-  props: {
-    doughList: {
-      type: Array,
-      required: true,
-    },
-    selectedDough: {
-      type: Object,
-      required: true,
-    },
+  computed: {
+    ...mapGetters("Builder", ["dough", "selectedDoughId"]),
+  },
+  methods: {
+    ...mapActions("Builder", ["selectDough"]),
   },
 };
 </script>

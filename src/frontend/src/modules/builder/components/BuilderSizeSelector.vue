@@ -5,20 +5,20 @@
 
       <div class="sheet__content diameter">
         <label
-          v-for="size in sizes"
-          :key="size.id"
+          v-for="{ id, type, name } in sizes"
+          :key="id"
           class="diameter__input"
-          :class="`diameter__input--${size.type}`"
+          :class="`diameter__input--${type}`"
         >
           <input
             type="radio"
             name="diameter"
-            :value="size.type"
-            :checked="size.id === selectedSize.id"
+            :value="type"
+            :checked="id === selectedSizeId"
             class="visually-hidden"
-            @click="$emit('select', size.id)"
+            @click="selectSize(id)"
           />
-          <span>{{ size.name }}</span>
+          <span>{{ name }}</span>
         </label>
       </div>
     </div>
@@ -26,17 +26,15 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "BuilderSizeSelector",
-  props: {
-    sizes: {
-      type: Array,
-      required: true,
-    },
-    selectedSize: {
-      type: Object,
-      required: true,
-    },
+  computed: {
+    ...mapGetters("Builder", ["sizes", "selectedSizeId"]),
+  },
+  methods: {
+    ...mapActions("Builder", ["selectSize"]),
   },
 };
 </script>

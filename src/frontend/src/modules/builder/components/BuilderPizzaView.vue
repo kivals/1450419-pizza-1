@@ -1,12 +1,12 @@
 <template>
-  <AppDrop @drop="moveIngredient">
+  <AppDrop @drop="selectIngredient">
     <div class="content__constructor">
       <div
         class="pizza"
-        :class="`pizza--foundation--${selectedDough}-${selectedSauce}`"
+        :class="`pizza--foundation--${this.selectedDough.type}-${this.selectedSauce.type}`"
       >
         <div class="pizza__wrapper">
-          <template v-for="ingredient of selectedIngredients">
+          <template v-for="ingredient of this.selectedIngredients">
             <div
               :key="ingredient.id"
               class="pizza__filling"
@@ -33,29 +33,21 @@
 
 <script>
 import AppDrop from "@/common/components/AppDrop";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "BuilderPizzaView",
   components: {
     AppDrop,
   },
-  props: {
-    selectedIngredients: {
-      type: Array,
-      default: () => [],
-    },
-    selectedSauce: {
-      type: String,
-      required: true,
-    },
-    selectedDough: {
-      type: String,
-      required: true,
-    },
+  computed: {
+    ...mapGetters("Builder", [
+      "selectedDough",
+      "selectedSauce",
+      "selectedIngredients",
+    ]),
   },
   methods: {
-    moveIngredient(ingredient) {
-      this.$emit("addIngredient", ingredient.id);
-    },
+    ...mapActions("Builder", ["selectIngredient"]),
   },
 };
 </script>

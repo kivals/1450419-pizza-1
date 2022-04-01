@@ -1,44 +1,26 @@
 <template>
   <li class="ingredients__item">
-    <AppDrag :transfer-data="ingredient" :draggable="isAllowAdd">
-      <span class="filling" :class="`filling--${ingredient.type}`">{{
-        ingredient.name
+    <AppDrag :transfer-data="transferData" :draggable="!isMaxLimit">
+      <span class="filling" :class="`filling--${ingredientWithCount.type}`">{{
+        ingredientWithCount.name
       }}</span>
     </AppDrag>
-    <div class="counter counter--orange ingredients__counter">
-      <button
-        type="button"
-        class="counter__button counter__button--minus"
-        @click="$emit('removeIngredient')"
-        :disabled="ingredient.count === 0"
-      >
-        <span class="visually-hidden">Меньше</span>
-      </button>
-      <input
-        readonly
-        type="text"
-        name="counter"
-        class="counter__input"
-        :value="ingredient.count"
-      />
-      <button
-        type="button"
-        class="counter__button counter__button--plus"
-        @click="$emit('addIngredient')"
-        :disabled="!isAllowAdd"
-      >
-        <span class="visually-hidden">Больше</span>
-      </button>
-    </div>
+    <ItemCounter
+      class="counter--orange ingredients__counter"
+      :counter="ingredientWithCount.count"
+      @change="changeCount"
+    />
   </li>
 </template>
 
 <script>
 import AppDrag from "@/common/components/AppDrag";
-import { MAX_INGREDIENT_COUNT } from "@/common/constants";
+import ItemCounter from "@/common/components/ItemCounter";
+import { mapActions, mapGetters } from "vuex";
+import { counterLimit } from "@/common/constants";
 export default {
   name: "BuilderIngredientItem",
-  components: { AppDrag },
+  components: { AppDrag, ItemCounter },
   props: {
     ingredient: {
       type: Object,
@@ -46,8 +28,31 @@ export default {
     },
   },
   computed: {
-    isAllowAdd() {
-      return this.ingredient.count < MAX_INGREDIENT_COUNT;
+    ...mapGetters("Builder", ["selectedIngredientsIds"]),
+    ingredientWithCount() {
+      const selectedIngredient = this.selectedIngredientsIds.find(
+        (ing) => ing.id === this.ingredient.id
+      );
+      const count = selectedIngredient?.count || 0;
+      return {
+        ...this.ingredient,
+        count,
+      };
+    },
+    transferData() {
+      return {
+        id: this.ingredientWithCount.id,
+        count: this.ingredientWithCount.count + 1,
+      };
+    },
+    isMaxLimit() {
+      return this.ingredientWithCount.count >= counterLimit.MAX;
+    },
+  },
+  methods: {
+    ...mapActions("Builder", ["selectIngredient"]),
+    changeCount(count) {
+      this.selectIngredient({ id: this.ingredient.id, count });
     },
   },
 };
