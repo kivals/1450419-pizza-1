@@ -98,5 +98,28 @@ export const sizeTypes = [
   },
 ];
 
+export const orderTypes = [
+  {
+    value: "self",
+    description: "Заберу сам",
+    auth: false,
+  },
+  {
+    value: "address",
+    description: "Новый адрес",
+    auth: false,
+    needAddress: true,
+  },
+  {
+    value: "house",
+    description: "Дом",
+    auth: true,
+    needAddress: true,
+  },
+];
+
 export const DATA_TRANSFER_PAYLOAD = "drag-payload";
-export const MAX_INGREDIENT_COUNT = 3;
+export const counterLimit = {
+  MIN: 0,
+  MAX: 3,
+};
