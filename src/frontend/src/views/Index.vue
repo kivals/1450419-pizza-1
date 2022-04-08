@@ -3,7 +3,7 @@
     <div class="content__wrapper">
       <h1 class="title title--big">Конструктор пиццы</h1>
 
-      <BuilderDoughSelector />
+      <BuilderDoughSelector v-if="dough" />
 
       <BuilderSizeSelector />
 
@@ -63,6 +63,7 @@ export default {
       "hasIngredients",
       "hasPizzaName",
       "totalPrice",
+      "dough",
     ]),
     ...mapState("Builder", ["selectedPizza"]),
     allowToCook() {

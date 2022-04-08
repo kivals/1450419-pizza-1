@@ -6,7 +6,6 @@ import {
 import { uniqueId } from "lodash";
 import pizzaJson from "@/static/pizza.json";
 import {
-  normalizeDough,
   normalizeIngredient,
   normalizeSauce,
   normalizeSize,
@@ -30,10 +29,12 @@ export default {
     },
   },
   actions: {
-    fetchBuilder({ commit }) {
+    async fetchBuilder({ commit }) {
+      const dough = await this.$api.getDough();
+      console.log(dough);
       const builderData = {
         ...pizzaJson,
-        dough: pizzaJson.dough.map((dough) => normalizeDough(dough)),
+        dough,
         sauces: pizzaJson.sauces.map((sauce) => normalizeSauce(sauce)),
         ingredients: pizzaJson.ingredients.map((ingredient) =>
           normalizeIngredient(ingredient)
