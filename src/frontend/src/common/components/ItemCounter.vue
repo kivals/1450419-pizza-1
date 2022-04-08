@@ -41,10 +41,14 @@ export default {
       type: String,
       required: false,
     },
+    maxCount: {
+      type: Number,
+      required: false,
+    },
   },
   computed: {
     isMaxLimit() {
-      return this.counter >= counterLimit.MAX;
+      return this.maxCount ? this.counter >= this.maxCount : false;
     },
     isMinLimit() {
       return this.counter <= counterLimit.MIN;

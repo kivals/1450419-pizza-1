@@ -8,6 +8,7 @@
     <ItemCounter
       class="counter--orange ingredients__counter"
       :counter="ingredientWithCount.count"
+      :max-count="countLimit"
       @change="changeCount"
     />
   </li>
@@ -45,8 +46,11 @@ export default {
         count: this.ingredientWithCount.count + 1,
       };
     },
+    countLimit() {
+      return counterLimit.MAX;
+    },
     isMaxLimit() {
-      return this.ingredientWithCount.count >= counterLimit.MAX;
+      return this.ingredientWithCount.count >= this.countLimit;
     },
   },
   methods: {

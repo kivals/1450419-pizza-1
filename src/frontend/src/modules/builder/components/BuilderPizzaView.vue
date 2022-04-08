@@ -3,10 +3,10 @@
     <div class="content__constructor">
       <div
         class="pizza"
-        :class="`pizza--foundation--${this.selectedDough.type}-${this.selectedSauce.type}`"
+        :class="`pizza--foundation--${selectedDough.type}-${selectedSauce.type}`"
       >
         <div class="pizza__wrapper">
-          <template v-for="ingredient of this.selectedIngredients">
+          <template v-for="ingredient of selectedIngredients">
             <div
               :key="ingredient.id"
               class="pizza__filling"
