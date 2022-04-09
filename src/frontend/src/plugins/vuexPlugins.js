@@ -1,7 +1,15 @@
-import { getDough } from "@/services/api.service";
+import {
+  fetchDough,
+  fetchIngredients,
+  fetchSauces,
+  fetchSizes,
+} from "@/services/api.service";
 
 export default function (store) {
   store.$api = {
-    getDough: getDough,
+    fetchDough,
+    fetchSizes,
+    fetchSauces,
+    fetchIngredients,
   };
 }

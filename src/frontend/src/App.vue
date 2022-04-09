@@ -15,8 +15,8 @@ export default {
   components: {
     AppLayout,
   },
-  created() {
-    this.$store.dispatch("init");
+  async created() {
+    await this.$store.dispatch("init");
   },
   computed: {
     ...mapState(["loading"]),

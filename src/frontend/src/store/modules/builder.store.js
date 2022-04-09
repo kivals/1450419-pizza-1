@@ -4,12 +4,6 @@ import {
   SET_SELECTED_PIZZA_ENTITY,
 } from "@/store/mutations-types";
 import { uniqueId } from "lodash";
-import pizzaJson from "@/static/pizza.json";
-import {
-  normalizeIngredient,
-  normalizeSauce,
-  normalizeSize,
-} from "@/common/helpers";
 
 export default {
   namespaced: true,
@@ -30,18 +24,18 @@ export default {
   },
   actions: {
     async fetchBuilder({ commit }) {
-      const dough = await this.$api.getDough();
-      console.log(dough);
-      const builderData = {
-        ...pizzaJson,
+      const [dough, sizes, sauces, ingredients] = await Promise.all([
+        this.$api.fetchDough(),
+        this.$api.fetchSizes(),
+        this.$api.fetchSauces(),
+        this.$api.fetchIngredients(),
+      ]);
+      commit(SET_BUILDER, {
         dough,
-        sauces: pizzaJson.sauces.map((sauce) => normalizeSauce(sauce)),
-        ingredients: pizzaJson.ingredients.map((ingredient) =>
-          normalizeIngredient(ingredient)
-        ),
-        sizes: pizzaJson.sizes.map((size) => normalizeSize(size)),
-      };
-      commit(SET_BUILDER, builderData);
+        sauces,
+        ingredients,
+        sizes,
+      });
     },
     /**
      * Инициализирует начальное состояние сущности выбранной пиццы

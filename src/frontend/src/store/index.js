@@ -10,6 +10,7 @@ import { SET_LOADING } from "@/store/mutations-types";
 Vue.use(Vuex);
 
 const state = {
+  //TODO надо ?
   pizzaConfig: {},
   loading: true,
 };
