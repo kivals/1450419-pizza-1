@@ -2,6 +2,7 @@ import axios from "@/plugins/axios";
 import {
   normalizeDough,
   normalizeIngredient,
+  normalizeMisc,
   normalizeSauce,
   normalizeSize,
 } from "@/common/helpers";
@@ -25,4 +26,9 @@ export const fetchSauces = async () => {
 export const fetchIngredients = async () => {
   const { data } = await axios.get("ingredients");
   return data.map(normalizeIngredient);
+};
+
+export const fetchMisc = async () => {
+  const { data } = await axios.get("misc");
+  return data.map(normalizeMisc);
 };

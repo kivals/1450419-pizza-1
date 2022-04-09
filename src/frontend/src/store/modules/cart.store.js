@@ -6,8 +6,6 @@ import {
   SET_EXTRA_PRODUCTS,
   UPDATE_CLIENT_PIZZA,
 } from "@/store/mutations-types";
-import miscJson from "@/static/misc.json";
-import { getFileNameFromPath } from "@/common/helpers";
 
 export default {
   namespaced: true,
@@ -16,13 +14,8 @@ export default {
     extraProducts: [],
   },
   actions: {
-    fetchExtraProducts({ commit }) {
-      const products = miscJson.map((p) => ({
-        ...p,
-        image: getFileNameFromPath(p.image),
-        count: 0,
-      }));
-
+    async fetchExtraProducts({ commit }) {
+      const products = await this.$api.fetchMisc();
       commit(SET_EXTRA_PRODUCTS, products);
     },
 

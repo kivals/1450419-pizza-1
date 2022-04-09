@@ -14,11 +14,17 @@ export const normalizeIngredient = (ingredient) =>
 
 export const normalizeSize = (size) => normalizeWithType(size, sizeTypes);
 
-export const getFileNameFromPath = (path) => {
-  return path.split("/").pop();
-};
+export const normalizeMisc = (misc) => ({
+  ...misc,
+  image: getFileNameFromPath(misc.image),
+  count: 0,
+});
 
 const normalizeWithType = (source, types) => ({
   ...source,
   type: types.find((t) => t.name === source.name).value,
 });
+
+const getFileNameFromPath = (path) => {
+  return path.split("/").pop();
+};
