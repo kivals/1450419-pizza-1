@@ -7,28 +7,36 @@ import {
   normalizeSize,
 } from "@/common/helpers";
 
-export const fetchDough = async () => {
+const fetchDough = async () => {
   const { data } = await axios.get("dough");
   return data.map(normalizeDough);
 };
 
-export const fetchSizes = async () => {
+const fetchSizes = async () => {
   const { data } = await axios.get("sizes");
   // Формируем необходимую структуру объекта SIZE и сортируем по множетелю цены
   return data.map(normalizeSize).sort((a, b) => a.multiplier - b.multiplier);
 };
 
-export const fetchSauces = async () => {
+const fetchSauces = async () => {
   const { data } = await axios.get("sauces");
   return data.map(normalizeSauce);
 };
 
-export const fetchIngredients = async () => {
+const fetchIngredients = async () => {
   const { data } = await axios.get("ingredients");
   return data.map(normalizeIngredient);
 };
 
-export const fetchMisc = async () => {
+const fetchMisc = async () => {
   const { data } = await axios.get("misc");
   return data.map(normalizeMisc);
+};
+
+export default {
+  fetchSizes,
+  fetchIngredients,
+  fetchDough,
+  fetchSauces,
+  fetchMisc,
 };
