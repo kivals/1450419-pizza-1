@@ -6,6 +6,7 @@ import {
   normalizeSauce,
   normalizeSize,
 } from "@/common/helpers";
+import JwtService from "./jwt.service";
 
 const fetchDough = async () => {
   const { data } = await axios.get("dough");
@@ -33,10 +34,36 @@ const fetchMisc = async () => {
   return data.map(normalizeMisc);
 };
 
+const setAuthHeader = () => {
+  const token = JwtService.getToken();
+  axios.defaults.headers.common["Authorization"] = token
+    ? `Bearer ${token}`
+    : "";
+};
+
+const login = async (params) => {
+  const { data } = await axios.post("login", params);
+  return data;
+};
+
+const logout = async () => {
+  const { data } = await axios.delete("logout");
+  return data;
+};
+
+const getMe = async () => {
+  const { data } = await axios.get("whoAmI");
+  return data;
+};
+
 export default {
   fetchSizes,
   fetchIngredients,
   fetchDough,
   fetchSauces,
   fetchMisc,
+  setAuthHeader,
+  login,
+  logout,
+  getMe,
 };

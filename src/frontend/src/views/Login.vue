@@ -71,10 +71,14 @@ export default {
     this.$refs.email.focus();
   },
   methods: {
-    login() {
+    async login() {
       this.validate();
       if (!this.email.error && !this.password.error) {
-        this.$router.push("/");
+        await this.$store.dispatch("Auth/login", {
+          email: this.email.value,
+          password: this.password.value,
+        });
+        await this.$router.push("/");
       }
     },
     validate() {
