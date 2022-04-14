@@ -16,6 +16,15 @@ export default {
     AppLayout,
   },
   async created() {
+    window.onerror = function (msg, url, line, col, error) {
+      console.error(error);
+    };
+
+    if (this.$jwt.getToken()) {
+      this.$store.$api.setAuthHeader();
+      await this.$store.dispatch("Auth/getMe");
+    }
+
     await this.$store.dispatch("init");
   },
   computed: {

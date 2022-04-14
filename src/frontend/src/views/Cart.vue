@@ -35,11 +35,7 @@
       </div>
 
       <div class="footer__submit">
-        <button
-          @click.prevent="$router.push('/success')"
-          type="submit"
-          class="button"
-        >
+        <button @click.prevent="makeOrder" type="submit" class="button">
           Оформить заказ
         </button>
       </div>
@@ -51,7 +47,8 @@
 import CartList from "@/modules/cart/components/CartList";
 import CartAdditionalList from "@/modules/cart/components/CartAdditionalList";
 import CartDeliveryInfo from "@/modules/cart/components/CartDeliveryInfo";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
+import { cloneDeep } from "lodash";
 
 export default {
   components: {
@@ -65,7 +62,27 @@ export default {
     };
   },
   computed: {
+    ...mapState("Cart", ["clientPizzas", "extraProducts"]),
+    ...mapState("Orders", ["phone", "address"]),
     ...mapGetters("Cart", ["totalPrice", "hasClientPizzas"]),
+    ...mapGetters("Auth", ["getUserId"]),
+  },
+  methods: {
+    ...mapActions("Orders", ["post"]),
+    async makeOrder() {
+      const filteredExtraProducts = this.extraProducts.filter(
+        (p) => p.count > 0
+      );
+      const sendData = {
+        userId: this.getUserId,
+        phone: this.phone,
+        address: cloneDeep(this.address),
+        pizzas: this.clientPizzas,
+        misc: filteredExtraProducts,
+      };
+      await this.post(sendData);
+      await this.$router.push("/success");
+    },
   },
 };
 </script>

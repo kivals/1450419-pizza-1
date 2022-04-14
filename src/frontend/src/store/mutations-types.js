@@ -10,3 +10,7 @@ export const CHANGE_EXTRA_PRODUCT_COUNT = "CHANGE_EXTRA_PRODUCT_COUNT";
 export const SET_LOADING = "SET_LOADING";
 export const SET_AUTH = "SET_AUTH";
 export const SET_AUTH_USER = "SET_AUTH_USER";
+export const SET_ORDERS = "SET_ORDERS";
+export const ADD_ORDER = "ADD_ORDER";
+export const CHANGE_ADDRESS = "CHANGE_ADDRESS";
+export const SET_PHONE = "SET_PHONE";

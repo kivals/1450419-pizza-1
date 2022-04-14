@@ -41,4 +41,9 @@ export default {
       state.user = user;
     },
   },
+  getters: {
+    getUserId({ user }) {
+      return user?.id;
+    },
+  },
 };

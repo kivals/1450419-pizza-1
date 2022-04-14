@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { validationRules } from "@/common/helpers";
+import { validationRules } from "@/common/helpers/validate.helper";
 
 export default {
   name: "Login",
