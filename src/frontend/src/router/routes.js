@@ -15,13 +15,13 @@ export default [
     path: "/orders",
     name: "Orders",
     component: () => import("@/views/Orders"),
-    meta: { layout: "AppLayoutMain" },
+    meta: { layout: "AppLayoutUser", title: "История заказов" },
   },
   {
     path: "/profile",
     name: "Profile",
     component: () => import("@/views/Profile"),
-    meta: { layout: "AppLayoutMain" },
+    meta: { layout: "AppLayoutUser", title: "Мои данные" },
   },
   {
     path: "/login",
