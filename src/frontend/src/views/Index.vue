@@ -1,13 +1,18 @@
 <template>
   <form action="#" method="post">
     <div class="content__wrapper">
-      <h1 class="title title--big">Конструктор пиццы</h1>
+      <AppTitle size="big">Конструктор пиццы</AppTitle>
 
-      <BuilderDoughSelector v-if="dough" />
+      <div v-if="dough" class="content__dough">
+        <BuilderDoughSelector />
+      </div>
 
-      <BuilderSizeSelector />
-
-      <BuilderIngredientsSelector />
+      <div class="content__diameter">
+        <BuilderSizeSelector />
+      </div>
+      <div class="content__ingredients">
+        <BuilderIngredientsSelector />
+      </div>
 
       <div class="content__pizza">
         <label class="input">
@@ -47,10 +52,12 @@ import BuilderIngredientsSelector from "@/modules/builder/components/BuilderIngr
 import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
 import BuilderPriceCounter from "@/modules/builder/components/BuilderPriceCounter";
 import { mapActions, mapGetters, mapState } from "vuex";
+import AppTitle from "@/common/components/AppTitle";
 
 export default {
   name: "Index",
   components: {
+    AppTitle,
     BuilderPriceCounter,
     BuilderPizzaView,
     BuilderIngredientsSelector,
