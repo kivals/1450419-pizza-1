@@ -14,6 +14,11 @@ export class ApiOrderService {
     return newOrder;
   }
 
+  async getOrders() {
+    const { data } = await axios.get(this.#resource);
+    return data;
+  }
+
   _prepareRequest({ userId = null, phone, address, pizzas, misc }) {
     return {
       userId,

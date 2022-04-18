@@ -14,11 +14,18 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "SuccessPopup",
+  computed: {
+    ...mapState("Auth", ["isAuthenticated"]),
+  },
   methods: {
     close() {
-      this.$router.push("/");
+      this.isAuthenticated
+        ? this.$router.push("/orders")
+        : this.$router.push("/");
     },
   },
 };

@@ -56,18 +56,12 @@ const getMe = async () => {
   return data;
 };
 
-const fetchOrders = async () => {
-  const { data } = await axios.get("orders");
-  return data;
-};
-
 export default {
   fetchSizes,
   fetchIngredients,
   fetchDough,
   fetchSauces,
   fetchMisc,
-  fetchOrders,
   setAuthHeader,
   login,
   logout,

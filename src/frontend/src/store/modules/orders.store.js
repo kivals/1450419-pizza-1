@@ -1,6 +1,7 @@
 import {
   ADD_ORDER,
   CHANGE_ADDRESS,
+  SET_LOADING,
   SET_ORDERS,
   SET_PHONE,
 } from "@/store/mutations-types";
@@ -18,8 +19,10 @@ export default {
   },
   actions: {
     async getOrders({ commit }) {
-      const orders = await this.$api.fetchOrders();
+      commit(SET_LOADING, true);
+      const orders = await this.$api.orders.getOrders();
       commit(SET_ORDERS, orders);
+      commit(SET_LOADING, false);
     },
 
     async post({ commit }, order) {
