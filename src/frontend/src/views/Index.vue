@@ -29,7 +29,7 @@
         <BuilderPizzaView />
 
         <div class="content__result">
-          <BuilderPriceCounter :total-price="totalPrice" />
+          <BuilderPriceCounter :total-price="pizzaPrice" />
 
           <button
             type="button"
@@ -53,6 +53,7 @@ import BuilderPizzaView from "@/modules/builder/components/BuilderPizzaView";
 import BuilderPriceCounter from "@/modules/builder/components/BuilderPriceCounter";
 import { mapActions, mapGetters, mapState } from "vuex";
 import AppTitle from "@/common/components/AppTitle";
+import { calculatePizzaPrice } from "@/common/helpers/pizza.helper";
 
 export default {
   name: "Index",
@@ -69,12 +70,19 @@ export default {
       "pizzaName",
       "hasIngredients",
       "hasPizzaName",
-      "totalPrice",
       "dough",
     ]),
     ...mapState("Builder", ["selectedPizza"]),
     allowToCook() {
       return this.hasPizzaName && this.hasIngredients;
+    },
+    pizzaPrice() {
+      return calculatePizzaPrice(this.$store, {
+        doughId: this.selectedPizza.dough,
+        sauceId: this.selectedPizza.sauce,
+        sizeId: this.selectedPizza.size,
+        ingredients: this.selectedPizza.ingredients,
+      });
     },
   },
   methods: {
@@ -83,7 +91,7 @@ export default {
     moveToCart() {
       this.addToCart({
         ...this.selectedPizza,
-        price: this.totalPrice,
+        price: this.pizzaPrice,
       });
     },
   },
