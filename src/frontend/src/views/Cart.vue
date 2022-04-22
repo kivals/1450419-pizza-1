@@ -17,7 +17,16 @@
             <CartAdditionalList />
           </div>
 
-          <CartDeliveryInfo />
+          <CartDeliveryInfo
+            :street="address.street"
+            :building="address.building"
+            :flat="address.flat"
+            :phone="phone"
+            @change-street="address.street = $event"
+            @change-building="address.building = $event"
+            @change-flat="address.flat = $event"
+            @change-phone="phone = $event"
+          />
         </template>
       </div>
     </main>
@@ -48,7 +57,6 @@ import CartList from "@/modules/cart/components/CartList";
 import CartAdditionalList from "@/modules/cart/components/CartAdditionalList";
 import CartDeliveryInfo from "@/modules/cart/components/CartDeliveryInfo";
 import { mapActions, mapGetters, mapState } from "vuex";
-import { cloneDeep } from "lodash";
 
 export default {
   components: {
@@ -58,12 +66,16 @@ export default {
   },
   data() {
     return {
-      showModal: true,
+      address: {
+        street: "",
+        building: "",
+        flat: "",
+      },
+      phone: "",
     };
   },
   computed: {
     ...mapState("Cart", ["clientPizzas", "extraProducts"]),
-    ...mapState("Orders", ["phone", "address"]),
     ...mapGetters("Cart", ["totalPrice", "hasClientPizzas"]),
     ...mapGetters("Auth", ["getUserId"]),
   },
@@ -76,7 +88,7 @@ export default {
       const sendData = {
         userId: this.getUserId,
         phone: this.phone,
-        address: cloneDeep(this.address),
+        address: this.address,
         pizzas: this.clientPizzas,
         misc: filteredExtraProducts,
       };

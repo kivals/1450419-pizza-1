@@ -18,6 +18,7 @@ const state = {
 const actions = {
   async init({ commit, dispatch }) {
     await dispatch("Builder/fetchBuilder");
+    //TODO перенести на момент загрузки страницы с корзиной
     await dispatch("Cart/fetchExtraProducts");
     dispatch("Builder/initSelectedPizza");
 

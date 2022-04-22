@@ -21,7 +21,7 @@
           type="text"
           name="tel"
           placeholder="+7 999-999-99-99"
-          v-model="phone"
+          v-model="delivery.phone"
         />
       </label>
 
@@ -31,21 +31,21 @@
         <div class="cart-form__input">
           <label class="input">
             <span>Улица*</span>
-            <input type="text" name="street" v-model="street" />
+            <input type="text" name="street" v-model="delivery.street" />
           </label>
         </div>
 
         <div class="cart-form__input cart-form__input--small">
           <label class="input">
             <span>Дом*</span>
-            <input type="text" name="house" v-model="building" />
+            <input type="text" name="house" v-model="delivery.building" />
           </label>
         </div>
 
         <div class="cart-form__input cart-form__input--small">
           <label class="input">
             <span>Квартира</span>
-            <input type="text" name="apartment" v-model="flat" />
+            <input type="text" name="apartment" v-model="delivery.flat" />
           </label>
         </div>
       </div>
@@ -54,54 +54,90 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
-import { orderTypes } from "@/common/constants";
-import { CHANGE_ADDRESS, SET_PHONE } from "@/store/mutations-types";
+import { mapState } from "vuex";
+
+const orderTypes = [
+  {
+    value: "self",
+    description: "Заберу сам",
+    auth: false,
+  },
+  {
+    value: "address",
+    description: "Новый адрес",
+    auth: false,
+    needAddress: true,
+  },
+  {
+    value: "house",
+    description: "Дом",
+    auth: true,
+    needAddress: true,
+  },
+];
 
 export default {
   name: "CartDeliveryInfo",
+  props: {
+    street: {
+      type: String,
+      default: "",
+    },
+    building: {
+      type: String,
+      default: "",
+    },
+    flat: {
+      type: String,
+      default: "",
+    },
+    phone: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
-      orderTypes,
       currentOrderType: orderTypes[0].value,
-      street: "",
-      building: "",
-      flat: "",
-      phone: "",
+      delivery: {
+        street: this.street,
+        building: this.building,
+        flat: this.flat,
+        phone: this.phone,
+      },
     };
   },
   computed: {
     ...mapState("Auth", ["isAuthenticated"]),
     allowOrderTypes() {
       return this.isAuthenticated
-        ? this.orderTypes
-        : this.orderTypes.filter((t) => !t.auth);
+        ? orderTypes
+        : orderTypes.filter((t) => !t.auth);
     },
     showDeliveryAddress() {
-      return this.orderTypes.find((t) => t.value === this.currentOrderType)
+      return orderTypes.find((t) => t.value === this.currentOrderType)
         ?.needAddress;
     },
   },
   methods: {
-    ...mapMutations("Orders", [CHANGE_ADDRESS, SET_PHONE]),
     clearAddressForm() {
-      this.street = "";
-      this.building = "";
-      this.flat = "";
+      this.delivery.street = "";
+      this.delivery.building = "";
+      this.delivery.flat = "";
     },
   },
   watch: {
-    street(value) {
-      this.CHANGE_ADDRESS({ entity: "street", value });
+    "delivery.street"(value) {
+      this.$emit("change-street", value);
     },
-    building(value) {
-      this.CHANGE_ADDRESS({ entity: "building", value });
+    "delivery.building"(value) {
+      this.$emit("change-building", value);
     },
-    flat(value) {
-      this.CHANGE_ADDRESS({ entity: "flat", value });
+    "delivery.flat"(value) {
+      this.$emit("change-flat", value);
     },
-    phone(value) {
-      this.SET_PHONE(value);
+    "delivery.phone"(value) {
+      this.$emit("change-phone", value);
     },
     currentOrderType() {
       if (!this.showDeliveryAddress) {

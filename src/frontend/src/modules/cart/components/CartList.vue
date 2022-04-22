@@ -2,7 +2,14 @@
   <div>
     <ul class="cart-list sheet">
       <li v-for="pizza in cartPizzas" :key="pizza.id" class="cart-list__item">
-        <CartPizzaItem :pizza="pizza" class="cart-list__product" />
+        <AppPizzaItem
+          :name="pizza.name"
+          :size-id="pizza.size"
+          :sauce-id="pizza.sauce"
+          :dough-id="pizza.dough"
+          :ingredients="pizza.ingredients"
+          class="cart-list__product"
+        />
 
         <ItemCounter
           class="cart-list__counter"
@@ -30,12 +37,12 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import CartPizzaItem from "@/modules/cart/components/CartPizzaItem";
 import ItemCounter from "@/common/components/ItemCounter";
+import AppPizzaItem from "@/common/components/AppPizzaItem";
 
 export default {
   name: "CartList",
-  components: { ItemCounter, CartPizzaItem },
+  components: { ItemCounter, AppPizzaItem },
   computed: {
     ...mapState("Cart", {
       cartPizzas: "clientPizzas",
