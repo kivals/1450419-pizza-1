@@ -14,3 +14,4 @@ export const SET_ORDERS = "SET_ORDERS";
 export const ADD_ORDER = "ADD_ORDER";
 export const CHANGE_ADDRESS = "CHANGE_ADDRESS";
 export const SET_PHONE = "SET_PHONE";
+export const DELETE_ORDER = "DELETE_ORDER";

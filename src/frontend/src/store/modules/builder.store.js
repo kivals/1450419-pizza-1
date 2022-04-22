@@ -4,6 +4,7 @@ import {
   SET_SELECTED_PIZZA_ENTITY,
 } from "@/store/mutations-types";
 import { uniqueId } from "lodash";
+import { createIdEntryEnum } from "@/common/helpers/common.helper";
 
 export default {
   namespaced: true,
@@ -160,40 +161,11 @@ export default {
         })),
 
     pizzaName: ({ selectedPizza }) => selectedPizza.name,
-    doughPrice: (_, { selectedDough }) => Number(selectedDough.price),
-    saucePrice: (_, { selectedSauce }) => Number(selectedSauce.price),
-    sizePriceMultiplier: (_, { selectedSize }) =>
-      Number(selectedSize.multiplier),
-    ingredientsTotalPrice: (_, { selectedIngredients }) =>
-      selectedIngredients.reduce(
-        (total, { price, count }) =>
-          Number(total) + Number(price) * Number(count),
-        0
-      ),
-    totalPrice: (
-      _,
-      { doughPrice, saucePrice, sizePriceMultiplier, ingredientsTotalPrice }
-    ) =>
-      (doughPrice + saucePrice + ingredientsTotalPrice) * sizePriceMultiplier,
     hasPizzaName: ({ selectedPizza }) => selectedPizza.name.length > 0,
     hasIngredients: ({ selectedPizza }) => selectedPizza.ingredients.length > 0,
-    sizeNamesEnum: (_, { sizes }) =>
-      sizes.reduce(
-        (result, item) => ({
-          ...result,
-          [item.id]: item.name,
-        }),
-        {}
-      ),
-    sauceNamesEnum: (_, { sauces }) =>
-      sauces.reduce(
-        (result, item) => ({ ...result, [item.id]: item.name }),
-        {}
-      ),
-    ingredientNamesEnum: (_, { ingredients }) =>
-      ingredients.reduce(
-        (result, item) => ({ ...result, [item.id]: item.name }),
-        {}
-      ),
+    sizeEnum: (_, { sizes }) => createIdEntryEnum(sizes),
+    sauceEnum: (_, { sauces }) => createIdEntryEnum(sauces),
+    doughEnum: (_, { dough }) => createIdEntryEnum(dough),
+    ingredientsEnum: (_, { ingredients }) => createIdEntryEnum(ingredients),
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <div class="order__header">
     <div class="order__number">
-      <b>Заказ #11199929</b>
+      <b>Заказ #{{ orderId }}</b>
     </div>
 
     <div class="order__sum">
@@ -9,7 +9,13 @@
     </div>
 
     <div class="order__button">
-      <button type="button" class="button button--border">Удалить</button>
+      <button
+        @click="deleteOrderHandler"
+        type="button"
+        class="button button--border"
+      >
+        Удалить
+      </button>
     </div>
     <div class="order__button">
       <button type="button" class="button">Повторить</button>
@@ -18,8 +24,22 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "OrderHeader",
+  props: {
+    orderId: {
+      type: Number,
+      required: true,
+    },
+  },
+  methods: {
+    ...mapActions("Orders", ["delete"]),
+    async deleteOrderHandler() {
+      await this.delete(this.orderId);
+    },
+  },
 };
 </script>
 

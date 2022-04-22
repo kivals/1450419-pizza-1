@@ -1,37 +1,23 @@
 <template>
-  <section class="order">
-    <OrderHeader />
+  <section class="order" v-if="order">
+    <OrderHeader :order-id="orderId" />
 
     <ul class="order__list">
-      <li class="order__item">
-        <OrderPizzaItem />
-
-        <p class="order__price">782 ₽</p>
+      <li class="order__item" v-for="pizza in order.pizzas" :key="pizza.id">
+        <AppPizzaItem
+          :name="pizza.name"
+          :size-id="pizza.sizeId"
+          :sauce-id="pizza.sauceId"
+          :dough-id="pizza.doughId"
+          :ingredients="pizza.ingredients"
+        />
+        <p class="order__price">
+          {{ `${pizza.count}x${getPizzaPrice(pizza)} ₽` }}
+        </p>
       </li>
-      <!--      <li class="order__item">
-        <div class="product">
-          <img
-            src="@/assets/img/product.svg"
-            class="product__img"
-            width="56"
-            height="56"
-            alt="Капричоза"
-          />
-          <div class="product__text">
-            <h2>Моя любимая</h2>
-            <ul>
-              <li>30 см, на тонком тесте</li>
-              <li>Соус: томатный</li>
-              <li>Начинка: грибы, лук, ветчина, пармезан, ананас</li>
-            </ul>
-          </div>
-        </div>
-
-        <p class="order__price">2х782 ₽</p>
-      </li>-->
     </ul>
 
-    <OrderAdditionalList />
+    <OrderExtraProducts :products="order.extraProducts" />
 
     <OrderAddress />
   </section>
@@ -39,17 +25,36 @@
 
 <script>
 import OrderHeader from "@/modules/orders/components/OrderHeader";
-import OrderPizzaItem from "@/modules/orders/components/OrderPizzaItem";
-import OrderAdditionalList from "@/modules/orders/components/OrderAdditionalList";
+import OrderExtraProducts from "@/modules/orders/components/OrderExtraProducts";
 import OrderAddress from "@/modules/orders/components/OrderAddress";
+import AppPizzaItem from "@/common/components/AppPizzaItem";
+import { mapGetters } from "vuex";
+import { calculatePizzaPrice } from "@/common/helpers/pizza.helper";
 
 export default {
   name: "OrderItem",
   components: {
+    AppPizzaItem,
     OrderHeader,
-    OrderPizzaItem,
-    OrderAdditionalList,
+    OrderExtraProducts,
     OrderAddress,
+  },
+  props: {
+    orderId: {
+      type: Number,
+      required: true,
+    },
+  },
+  computed: {
+    ...mapGetters("Orders", ["getOrderById"]),
+    order() {
+      return this.getOrderById(this.orderId);
+    },
+  },
+  methods: {
+    getPizzaPrice(pizza) {
+      return calculatePizzaPrice(this.$store, { ...pizza });
+    },
   },
 };
 </script>

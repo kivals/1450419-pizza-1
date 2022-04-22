@@ -6,6 +6,7 @@ import {
   SET_EXTRA_PRODUCTS,
   UPDATE_CLIENT_PIZZA,
 } from "@/store/mutations-types";
+import { createIdEntryEnum } from "@/common/helpers/common.helper";
 
 export default {
   namespaced: true,
@@ -78,5 +79,6 @@ export default {
       return pizzasPrice + extraProductsPrice;
     },
     hasClientPizzas: ({ clientPizzas }) => clientPizzas.length > 0,
+    extraProductsEnum: ({ extraProducts }) => createIdEntryEnum(extraProducts),
   },
 };

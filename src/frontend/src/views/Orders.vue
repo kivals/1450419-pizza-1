@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <OrderItem />
+  <div v-if="orders.length">
+    <OrderItem v-for="{ id } in orders" :key="id" :orderId="id" />
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import OrderItem from "@/modules/orders/components/OrderItem";
 
 export default {
@@ -14,16 +14,14 @@ export default {
     OrderItem,
   },
   computed: {
-    ...mapState(["loading"]),
+    ...mapState("Orders", ["orders"]),
   },
-  data() {
-    return {
-      orders: [],
-    };
+  methods: {
+    ...mapActions("Orders", ["fetchOrders"]),
   },
-  /*  async created() {
-    this.orders = await this.$store.dispatch("Orders/getOrders");
-  },*/
+  async created() {
+    await this.fetchOrders();
+  },
 };
 </script>
 
