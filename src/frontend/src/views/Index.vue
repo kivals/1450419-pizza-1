@@ -13,7 +13,6 @@
       <div class="content__ingredients">
         <BuilderIngredientsSelector />
       </div>
-
       <div class="content__pizza">
         <label class="input">
           <span class="visually-hidden">Название пиццы</span>
@@ -66,23 +65,14 @@ export default {
     BuilderDoughSelector,
   },
   computed: {
-    ...mapGetters("Builder", [
-      "pizzaName",
-      "hasIngredients",
-      "hasPizzaName",
-      "dough",
-    ]),
+    ...mapGetters(["dough"]),
+    ...mapGetters("Builder", ["pizzaName", "hasIngredients", "hasPizzaName"]),
     ...mapState("Builder", ["selectedPizza"]),
     allowToCook() {
       return this.hasPizzaName && this.hasIngredients;
     },
     pizzaPrice() {
-      return calculatePizzaPrice(this.$store, {
-        doughId: this.selectedPizza.dough,
-        sauceId: this.selectedPizza.sauce,
-        sizeId: this.selectedPizza.size,
-        ingredients: this.selectedPizza.ingredients,
-      });
+      return calculatePizzaPrice(this.$store, this.selectedPizza);
     },
   },
   methods: {

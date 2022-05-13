@@ -25,7 +25,7 @@ export class ApiOrderService {
   }
 
   /**
-   * Готовим сущность ответа для клиентской части
+   * Готовим сущность-ответа для клиентской части
    * @param orderResponse сырой объект из бекэнда
    * @returns
    * {
@@ -66,7 +66,7 @@ export class ApiOrderService {
       id: serverOrder.id,
       user: this._getUserDataFromResponse(serverOrder),
       pizzas: this._getPizzasFromResponse(serverOrder),
-      extraProducts: this._getExtraProductsFromResponse(serverOrder),
+      orderMisc: this._getExtraProductsFromResponse(serverOrder),
     }));
   }
 
@@ -86,18 +86,20 @@ export class ApiOrderService {
       sizeId: serverPizza.sizeId,
       sauceId: serverPizza.sauceId,
       count: serverPizza.quantity,
-      ingredients: serverPizza.ingredients.map((ing) => ({
-        id: ing.ingredientId,
-        count: ing.quantity,
-      })),
+      ingredients: serverPizza.ingredients.map(
+        ({ ingredientId, quantity }) => ({
+          id: ingredientId,
+          count: quantity,
+        })
+      ),
     }));
   }
 
   _getExtraProductsFromResponse(orderData) {
     return (
-      orderData.orderMisc?.map((misc) => ({
-        id: misc.miscId,
-        count: misc.quantity,
+      orderData.orderMisc?.map(({ miscId, quantity }) => ({
+        id: miscId,
+        count: quantity,
       })) || []
     );
   }
@@ -109,18 +111,18 @@ export class ApiOrderService {
       address: this._prepareAddress(address),
       pizzas: pizzas.map((pizza) => ({
         name: pizza.name,
-        sauceId: pizza.sauce,
-        doughId: pizza.dough,
-        sizeId: pizza.size,
+        sauceId: pizza.sauceId,
+        doughId: pizza.doughId,
+        sizeId: pizza.sizeId,
         quantity: pizza.count,
-        ingredients: pizza.ingredients.map((ing) => ({
-          ingredientId: ing.id,
-          quantity: ing.count,
+        ingredients: pizza.ingredients.map(({ id, count }) => ({
+          ingredientId: id,
+          quantity: count,
         })),
       })),
-      misc: misc.map((m) => ({
-        miscId: m.id,
-        quantity: m.count,
+      misc: misc.map(({ id, count }) => ({
+        miscId: id,
+        quantity: count,
       })),
     };
   }

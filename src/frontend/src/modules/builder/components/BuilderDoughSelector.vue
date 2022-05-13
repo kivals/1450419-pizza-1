@@ -35,7 +35,8 @@ export default {
     AppSheet,
   },
   computed: {
-    ...mapGetters("Builder", ["dough", "selectedDoughId"]),
+    ...mapGetters("Builder", ["selectedDoughId"]),
+    ...mapGetters(["dough"]),
   },
   methods: {
     ...mapActions("Builder", ["selectDough"]),

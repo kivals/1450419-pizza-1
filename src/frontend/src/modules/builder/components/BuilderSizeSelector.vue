@@ -34,7 +34,8 @@ export default {
     AppSheet,
   },
   computed: {
-    ...mapGetters("Builder", ["sizes", "selectedSizeId"]),
+    ...mapGetters("Builder", ["selectedSizeId"]),
+    ...mapGetters(["sizes"]),
   },
   methods: {
     ...mapActions("Builder", ["selectSize"]),

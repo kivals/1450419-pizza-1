@@ -1,4 +1,5 @@
 import { ADD_ORDER, DELETE_ORDER, SET_ORDERS } from "@/store/mutations-types";
+import { calculatePizzaPrice } from "@/common/helpers/pizza.helper";
 
 export default {
   namespaced: true,
@@ -7,13 +8,20 @@ export default {
   },
   actions: {
     async fetchOrders({ commit }) {
-      const orders = await this.$api.orders.getOrders();
+      let orders = await this.$api.orders.getOrders();
+      //TODO слишком сложно
+      orders = orders.map((order) => ({
+        ...order,
+        pizzas: order.pizzas.map((pizza) => ({
+          ...pizza,
+          price: calculatePizzaPrice(this, pizza),
+        })),
+      }));
       commit(SET_ORDERS, orders);
     },
 
     async post(_, order) {
-      const data = await this.$api.orders.post(order);
-      return data;
+      return await this.$api.orders.post(order);
     },
 
     async delete({ commit }, id) {

@@ -22,7 +22,7 @@ export default {
     BuilderIngredientItem,
   },
   computed: {
-    ...mapGetters("Builder", ["ingredients"]),
+    ...mapGetters(["ingredients"]),
   },
 };
 </script>

@@ -50,7 +50,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("Builder", ["sizeEnum", "sauceEnum", "ingredientsEnum"]),
+    ...mapGetters(["sizeEnum", "sauceEnum", "ingredientsEnum"]),
     doughInfo() {
       const sizeName = this.sizeEnum[this.sizeId].name;
       const doughDescription =

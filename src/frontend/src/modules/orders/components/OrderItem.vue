@@ -1,6 +1,10 @@
 <template>
   <section class="order" v-if="order">
-    <OrderHeader :order-id="orderId" />
+    <OrderHeader
+      :order-id="orderId"
+      @delete-order="deleteOrderHandler"
+      @repeat-order="repeatOrderHandler"
+    />
 
     <ul class="order__list">
       <li class="order__item" v-for="pizza in order.pizzas" :key="pizza.id">
@@ -12,12 +16,12 @@
           :ingredients="pizza.ingredients"
         />
         <p class="order__price">
-          {{ `${pizza.count}x${getPizzaPrice(pizza)} ₽` }}
+          {{ `${pizza.count}x${pizza.price} ₽` }}
         </p>
       </li>
     </ul>
 
-    <OrderExtraProducts :products="order.extraProducts" />
+    <OrderExtraProducts :products="order.orderMisc" />
 
     <OrderAddress />
   </section>
@@ -28,8 +32,7 @@ import OrderHeader from "@/modules/orders/components/OrderHeader";
 import OrderExtraProducts from "@/modules/orders/components/OrderExtraProducts";
 import OrderAddress from "@/modules/orders/components/OrderAddress";
 import AppPizzaItem from "@/common/components/AppPizzaItem";
-import { mapGetters } from "vuex";
-import { calculatePizzaPrice } from "@/common/helpers/pizza.helper";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "OrderItem",
@@ -52,8 +55,17 @@ export default {
     },
   },
   methods: {
-    getPizzaPrice(pizza) {
-      return calculatePizzaPrice(this.$store, { ...pizza });
+    ...mapActions("Orders", ["delete"]),
+    ...mapActions("Cart", ["backToCart"]),
+    async deleteOrderHandler() {
+      await this.delete(this.orderId);
+    },
+    repeatOrderHandler() {
+      this.backToCart({
+        pizzas: this.order.pizzas,
+        orderMisc: this.order.orderMisc,
+      });
+      this.$router.push("/cart");
     },
   },
 };

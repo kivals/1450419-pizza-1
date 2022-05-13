@@ -30,6 +30,7 @@ export default {
   },
   computed: {
     ...mapGetters("Builder", ["selectedIngredientsIds"]),
+    ...mapGetters(["ingredientsEnum"]),
     ingredientWithCount() {
       const selectedIngredient = this.selectedIngredientsIds.find(
         (ing) => ing.id === this.ingredient.id

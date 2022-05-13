@@ -18,7 +18,6 @@ export const normalizeSize = (size) => normalizeWithType(size, sizeTypes);
 export const normalizeMisc = (misc) => ({
   ...misc,
   image: getFileNameFromPath(misc.image),
-  count: 0,
 });
 
 const normalizeWithType = (source, types) => ({

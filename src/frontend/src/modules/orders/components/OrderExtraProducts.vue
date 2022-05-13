@@ -27,10 +27,10 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("Cart", ["extraProductsEnum"]),
+    ...mapGetters(["miscEnum"]),
     orderedProducts() {
       return this.products.map(({ id, count }) => ({
-        ...this.extraProductsEnum[id],
+        ...this.miscEnum[id],
         count,
       }));
     },

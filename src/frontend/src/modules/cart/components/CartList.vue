@@ -4,9 +4,9 @@
       <li v-for="pizza in cartPizzas" :key="pizza.id" class="cart-list__item">
         <AppPizzaItem
           :name="pizza.name"
-          :size-id="pizza.size"
-          :sauce-id="pizza.sauce"
-          :dough-id="pizza.dough"
+          :size-id="pizza.sizeId"
+          :sauce-id="pizza.sauceId"
+          :dough-id="pizza.doughId"
           :ingredients="pizza.ingredients"
           class="cart-list__product"
         />

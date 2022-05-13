@@ -75,24 +75,23 @@ export default {
     };
   },
   computed: {
-    ...mapState("Cart", ["clientPizzas", "extraProducts"]),
+    ...mapState("Cart", ["clientPizzas", "selectedMisc"]),
     ...mapGetters("Cart", ["totalPrice", "hasClientPizzas"]),
     ...mapGetters("Auth", ["getUserId"]),
   },
   methods: {
     ...mapActions("Orders", ["post"]),
+    ...mapActions("Cart", ["clearCart"]),
     async makeOrder() {
-      const filteredExtraProducts = this.extraProducts.filter(
-        (p) => p.count > 0
-      );
       const sendData = {
         userId: this.getUserId,
         phone: this.phone,
         address: this.address,
         pizzas: this.clientPizzas,
-        misc: filteredExtraProducts,
+        misc: this.selectedMisc,
       };
       await this.post(sendData);
+      this.clearCart();
       await this.$router.push("/success");
     },
   },

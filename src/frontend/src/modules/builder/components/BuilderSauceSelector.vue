@@ -25,7 +25,8 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   name: "BuilderSauceSelector",
   computed: {
-    ...mapGetters("Builder", ["sauces", "selectedSauceId"]),
+    ...mapGetters("Builder", ["selectedSauceId"]),
+    ...mapGetters(["sauces"]),
   },
   methods: {
     ...mapActions("Builder", ["selectSauce"]),

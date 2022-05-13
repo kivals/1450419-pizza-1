@@ -1,25 +1,22 @@
 import {
   ADD_CLIENT_PIZZA,
+  ADD_SELECTED_MISC_COUNT,
   CHANGE_CLIENT_PIZZA_COUNT,
-  CHANGE_EXTRA_PRODUCT_COUNT,
+  CHANGE_SELECTED_MISC_COUNT,
+  CLEAR_CART,
   DELETE_CLIENT_PIZZA,
-  SET_EXTRA_PRODUCTS,
+  SET_CLIENT_PIZZAS,
+  SET_SELECTED_MISC,
   UPDATE_CLIENT_PIZZA,
 } from "@/store/mutations-types";
-import { createIdEntryEnum } from "@/common/helpers/common.helper";
 
 export default {
   namespaced: true,
   state: {
     clientPizzas: [],
-    extraProducts: [],
+    selectedMisc: [],
   },
   actions: {
-    async fetchExtraProducts({ commit }) {
-      const products = await this.$api.fetchMisc();
-      commit(SET_EXTRA_PRODUCTS, products);
-    },
-
     addToCart({ commit, state, dispatch }, pizza) {
       const index = state.clientPizzas.findIndex((p) => p.id === pizza.id);
 
@@ -37,15 +34,29 @@ export default {
         : commit(DELETE_CLIENT_PIZZA, id);
     },
 
-    changeProductCount({ commit }, { id, count }) {
-      if (count >= 0) {
-        commit(CHANGE_EXTRA_PRODUCT_COUNT, { id, count });
-      }
+    changeMiscCount({ commit, state }, { id, count }) {
+      const selectedIndex = state.selectedMisc.findIndex(
+        (misc) => misc.id === id
+      );
+
+      ~selectedIndex
+        ? commit(CHANGE_SELECTED_MISC_COUNT, { id, count })
+        : commit(ADD_SELECTED_MISC_COUNT, { id });
+    },
+    clearCart({ commit }) {
+      commit(CLEAR_CART);
+    },
+    backToCart({ commit }, { pizzas, orderMisc }) {
+      commit(SET_CLIENT_PIZZAS, pizzas);
+      commit(SET_SELECTED_MISC, orderMisc);
     },
   },
   mutations: {
-    [SET_EXTRA_PRODUCTS](state, extraProducts) {
-      state.extraProducts = extraProducts;
+    [SET_SELECTED_MISC](state, selectedMisc) {
+      state.selectedMisc = selectedMisc;
+    },
+    [SET_CLIENT_PIZZAS](state, pizzas) {
+      state.clientPizzas = pizzas;
     },
     [ADD_CLIENT_PIZZA](state, clientPizza) {
       state.clientPizzas.push(clientPizza);
@@ -60,25 +71,31 @@ export default {
       const pizza = state.clientPizzas.find((p) => p.id === id);
       pizza.count = count;
     },
-    [CHANGE_EXTRA_PRODUCT_COUNT](state, { id, count }) {
-      const product = state.extraProducts.find((p) => p.id === id);
-      product.count = count;
+    [CHANGE_SELECTED_MISC_COUNT](state, { id, count }) {
+      state.selectedMisc.find((p) => p.id === id).count = count;
+    },
+    [ADD_SELECTED_MISC_COUNT](state, { id }) {
+      state.selectedMisc.push({ id, count: 1 });
+    },
+    [CLEAR_CART](state) {
+      state.clientPizzas = [];
+      state.selectedMisc = [];
     },
   },
   getters: {
-    totalPrice({ clientPizzas, extraProducts }) {
-      const pizzasPrice = clientPizzas.reduce(
+    totalPrice(state, getters, rootState, rootGetters) {
+      const pizzasPrice = state.clientPizzas.reduce(
         (acc, pizza) => acc + Number(pizza.price) * Number(pizza.count),
         0
       );
-      const extraProductsPrice = extraProducts.reduce(
-        (acc, product) => acc + Number(product.price) * Number(product.count),
-        0
-      );
+      const miscPrice = state.selectedMisc.reduce((acc, misc) => {
+        const price = Number(rootGetters.miscEnum[misc.id].price);
+        const count = Number(misc.count);
+        return acc + price * count;
+      }, 0);
 
-      return pizzasPrice + extraProductsPrice;
+      return pizzasPrice + miscPrice;
     },
     hasClientPizzas: ({ clientPizzas }) => clientPizzas.length > 0,
-    extraProductsEnum: ({ extraProducts }) => createIdEntryEnum(extraProducts),
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <ul class="additional-list">
     <li
-      v-for="product in extraProducts"
+      v-for="product in miscWithCount"
       :key="product.id"
       class="additional-list__item sheet"
     >
@@ -19,7 +19,7 @@
           class="additional-list__counter"
           color-theme="orange"
           :counter="product.count"
-          @change="changeProductCount({ id: product.id, count: $event })"
+          @change="changeMiscCount({ id: product.id, count: $event })"
         />
 
         <div class="additional-list__price">
@@ -31,17 +31,33 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import ItemCounter from "@/common/components/ItemCounter";
 
 export default {
   name: "CartAdditional",
   components: { ItemCounter },
   computed: {
-    ...mapState("Cart", ["extraProducts"]),
+    ...mapGetters(["misc"]),
+    ...mapState("Cart", ["selectedMisc"]),
+    miscWithCount() {
+      return this.misc.map((miscItem) => {
+        const selectedMiscIndex = this.selectedMisc.findIndex(
+          (selMisc) => selMisc.id === miscItem.id
+        );
+        const count = ~selectedMiscIndex
+          ? this.selectedMisc[selectedMiscIndex].count
+          : 0;
+
+        return {
+          ...miscItem,
+          count,
+        };
+      });
+    },
   },
   methods: {
-    ...mapActions("Cart", ["changeProductCount"]),
+    ...mapActions("Cart", ["changeMiscCount"]),
   },
 };
 </script>
