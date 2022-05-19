@@ -9,9 +9,7 @@
       />
     </router-link>
 
-    <router-link class="layout__link layout__link--active" to="/orders"
-      >История заказов</router-link
-    >
+    <router-link class="layout__link" to="/orders">История заказов</router-link>
     <router-link class="layout__link" to="/profile">Мои данные</router-link>
   </div>
 </template>
