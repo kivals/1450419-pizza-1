@@ -29,12 +29,14 @@ export default {
         commit(SET_AUTH, true);
         commit(SET_AUTH_USER, data);
       } catch (e) {
-        dispatch("logout");
+        dispatch("logout", false);
       }
     },
 
-    async logout({ commit }) {
-      await this.$api.logout();
+    async logout({ commit }, sendRequest = true) {
+      if (sendRequest) {
+        await this.$api.logout();
+      }
       this.$jwt.destroyToken();
       this.$api.setAuthHeader();
       commit(SET_AUTH, false);

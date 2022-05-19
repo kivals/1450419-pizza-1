@@ -34,6 +34,7 @@ const fetchMisc = async () => {
   return data.map(normalizeMisc);
 };
 
+//TODO в свой сервис
 const setAuthHeader = () => {
   const token = JwtService.getToken();
   axios.defaults.headers.common["Authorization"] = token

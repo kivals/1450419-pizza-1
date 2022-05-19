@@ -14,7 +14,17 @@
       <router-link to="/cart">{{ totalPrice }} ₽</router-link>
     </div>
     <div class="header__user">
-      <router-link to="/login" class="header__login"
+      <template v-if="user">
+        <router-link to="/profile">
+          <img :src="user.avatar" :alt="user.name" width="32" height="32" />
+
+          <span>{{ user.name }}</span>
+        </router-link>
+        <a @click.prevent="onLogoutClick" class="header__logout"
+          ><span>Выйти</span></a
+        >
+      </template>
+      <router-link v-else to="/login" class="header__login"
         ><span>Войти</span></router-link
       >
     </div>
@@ -22,17 +32,26 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "AppLayoutHeader",
   computed: {
+    ...mapState("Auth", ["user"]),
     ...mapGetters("Cart", ["totalPrice"]),
+  },
+  methods: {
+    ...mapActions("Auth", ["logout"]),
+    async onLogoutClick() {
+      await this.logout();
+      await this.$router.push("/login");
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/scss/mixins/mixins.scss";
 .header {
   position: relative;
   z-index: 2;
@@ -88,6 +107,9 @@ export default {
 }
 
 .header__user {
+  display: flex;
+  align-items: center;
+
   a {
     display: block;
 
@@ -133,6 +155,38 @@ export default {
     vertical-align: middle;
 
     color: $white;
+  }
+}
+
+.header__logout {
+  &::before {
+    display: inline-block;
+
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+
+    content: "";
+    vertical-align: middle;
+
+    background: url("~@/assets/img/login.svg") no-repeat center;
+    background-size: auto 50%;
+  }
+}
+
+.header__login {
+  &::after {
+    display: inline-block;
+
+    width: 32px;
+    height: 32px;
+    margin-left: 8px;
+
+    content: "";
+    vertical-align: middle;
+
+    background: url("~@/assets/img/login.svg") no-repeat center;
+    background-size: auto 50%;
   }
 }
 </style>

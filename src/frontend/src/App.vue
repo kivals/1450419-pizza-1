@@ -23,12 +23,18 @@ export default {
     if (this.$jwt.getToken()) {
       this.$store.$api.setAuthHeader();
       await this.$store.dispatch("Auth/getMe");
+
+      // Если токен невалидный и мы не авторизовались
+      if (!this.isAuthenticated) {
+        await this.$router.push("/");
+      }
     }
 
     await this.$store.dispatch("init");
   },
   computed: {
     ...mapState(["loading"]),
+    ...mapState("Auth", ["isAuthenticated"]),
   },
 };
 </script>
