@@ -6,7 +6,8 @@ import Cart from "@/store/modules/cart.store";
 import Orders from "@/store/modules/orders.store";
 import VuexPlugins from "@/plugins/vuexPlugins";
 import { SET_APP_DATA, SET_LOADING } from "@/store/mutations-types";
-import { createIdEntryEnum } from "@/common/helpers/common.helper";
+import { resources } from "@/common/enums/resources.enum";
+import getResourceEnum from "@/common/enums/resource-storage.enum";
 
 Vue.use(Vuex);
 
@@ -55,18 +56,19 @@ const mutations = {
     state.appData = appData;
   },
 };
-//TODO надо ENUMS вынести, чтобы они создавались один раз, а не при каждом обращении
+
 const getters = {
   dough: ({ appData }) => appData.dough,
   sizes: ({ appData }) => appData.sizes,
   sauces: ({ appData }) => appData.sauces,
   ingredients: ({ appData }) => appData.ingredients,
   misc: ({ appData }) => appData.misc,
-  sizeEnum: (_, { sizes }) => createIdEntryEnum(sizes),
-  sauceEnum: (_, { sauces }) => createIdEntryEnum(sauces),
-  doughEnum: (_, { dough }) => createIdEntryEnum(dough),
-  ingredientsEnum: (_, { ingredients }) => createIdEntryEnum(ingredients),
-  miscEnum: (_, { misc }) => createIdEntryEnum(misc),
+  doughEnum: (_, { dough }) => getResourceEnum(resources.DOUGH, dough),
+  sizeEnum: (_, { sizes }) => getResourceEnum(resources.SIZES, sizes),
+  sauceEnum: (_, { sauces }) => getResourceEnum(resources.SAUCES, sauces),
+  ingredientsEnum: (_, { ingredients }) =>
+    getResourceEnum(resources.INGREDIENTS, ingredients),
+  miscEnum: (_, { misc }) => getResourceEnum(resources.MISC, misc),
 };
 
 export default new Vuex.Store({
