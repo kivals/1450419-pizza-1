@@ -48,7 +48,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("Auth", ["addresses"]),
+    ...mapState("Address", ["addresses"]),
     addressData() {
       return this.addresses.map((address) => ({
         address,
@@ -60,7 +60,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("Auth", [
+    ...mapActions("Address", [
       "fetchAddresses",
       "saveUserAddress",
       "updateAddress",

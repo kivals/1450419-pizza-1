@@ -83,19 +83,6 @@ export default {
     },
   },
   getters: {
-    totalPrice(state, getters, rootState, rootGetters) {
-      const pizzasPrice = state.clientPizzas.reduce(
-        (acc, pizza) => acc + Number(pizza.price) * Number(pizza.count),
-        0
-      );
-      const miscPrice = state.selectedMisc.reduce((acc, misc) => {
-        const price = Number(rootGetters.miscEnum[misc.id].price);
-        const count = Number(misc.count);
-        return acc + price * count;
-      }, 0);
-
-      return pizzasPrice + miscPrice;
-    },
     hasClientPizzas: ({ clientPizzas }) => clientPizzas.length > 0,
   },
 };

@@ -1,27 +1,23 @@
-import axios from "@/plugins/axios";
+import { ApiBaseService } from "@/services/api.base.service";
 
-export class ApiOrderService {
-  #resource;
+export class ApiOrderService extends ApiBaseService {
   constructor(resource) {
-    this.#resource = resource;
+    super(resource);
   }
 
-  async post({ userId, phone, address, pizzas, misc }) {
-    const { data: newOrder } = await axios.post(
-      this.#resource,
+  async createOrder({ userId, phone, address, pizzas, misc }) {
+    return await super.post(
       this._prepareRequest({ userId, phone, address, pizzas, misc })
     );
-    return newOrder;
   }
 
   async getOrders() {
-    const { data } = await axios.get(this.#resource);
-    return this._prepareResponse(data);
+    const orders = await super.fetch();
+    return this._prepareResponse(orders);
   }
 
-  async delete(id) {
-    const { data } = await axios.delete(`${this.#resource}/${id}`);
-    return data;
+  async deleteOrder(id) {
+    await super.delete(id);
   }
 
   /**
@@ -32,7 +28,6 @@ export class ApiOrderService {
    *     id: '',
    *     client: {
    *       userId: '',
-   *       //TODO тут пока не понятно, что приходит
    *       address: {},
    *       phone: ''
    *     },

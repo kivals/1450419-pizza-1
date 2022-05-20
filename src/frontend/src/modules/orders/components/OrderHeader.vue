@@ -27,7 +27,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { calculatePizzaPrice } from "@/common/helpers/pizza.helper";
+import { calculateOrderPrice } from "@/common/helpers/pizza.helper";
 
 export default {
   name: "OrderHeader",
@@ -40,22 +40,9 @@ export default {
   computed: {
     ...mapGetters("Orders", ["getOrderById"]),
     ...mapGetters(["miscEnum"]),
-    // TODO такая же логика есть в сторе корзины, надо сделать единую точку подсчета суммы
     orderPrice() {
       const order = this.getOrderById(this.orderId);
-
-      const pizzasPrice = order.pizzas.reduce((sum, pizza) => {
-        return (
-          sum + calculatePizzaPrice(this.$store, pizza) * Number(pizza.count)
-        );
-      }, 0);
-      const miscPrice = order.orderMisc.reduce((sum, misc) => {
-        const price = Number(this.miscEnum[misc.id].price);
-        const count = Number(misc.count);
-        return sum + price * count;
-      }, 0);
-
-      return pizzasPrice + miscPrice;
+      return calculateOrderPrice(order.pizzas, order.orderMisc, this.$store);
     },
   },
   methods: {

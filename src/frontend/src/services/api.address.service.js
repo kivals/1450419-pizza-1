@@ -1,32 +1,23 @@
-import axios from "@/plugins/axios";
+import { ApiBaseService } from "@/services/api.base.service";
 
-// TODO подумать над наследованием или абстрактным классом
-export class ApiAddressService {
-  #resource;
+export class ApiAddressService extends ApiBaseService {
   constructor(resource) {
-    this.#resource = resource;
+    super(resource);
   }
 
   async getAddresses() {
-    const { data } = await axios.get(this.#resource);
-    return data;
+    return await super.fetch();
   }
 
-  async post(address) {
-    const { data } = await axios.post(this.#resource, address);
-    return data;
+  async createAddress(address) {
+    return await super.post(address);
   }
 
-  async put(address) {
-    const { data } = await axios.put(
-      `${this.#resource}/${address.id}`,
-      address
-    );
-    return data;
+  async editAddress(address) {
+    return await super.put(address.id, address);
   }
 
   async delete(id) {
-    const { data } = await axios.delete(`${this.#resource}/${id}`);
-    return data;
+    await super.delete(id);
   }
 }

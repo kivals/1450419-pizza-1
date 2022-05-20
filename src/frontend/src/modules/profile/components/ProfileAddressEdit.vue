@@ -82,6 +82,8 @@
 </template>
 
 <script>
+import { validationRules } from "@/common/helpers/validate.helper";
+
 const createEmptyState = () => ({
   name: "",
   street: "",
@@ -90,7 +92,6 @@ const createEmptyState = () => ({
   flat: "",
 });
 
-//TODO сделать проверки на заполненность полей, убрать возможность отправки пустого объекта
 export default {
   name: "ProfileAddressEdit",
   props: {
@@ -108,8 +109,18 @@ export default {
     onDeleteClick() {
       this.$emit("delete");
     },
+    //TODO добавить вывод ошибок пользователю при заполнении
     onSaveClick() {
-      this.$emit("save", this.addressState);
+      if (this.validate()) {
+        this.$emit("save", this.addressState);
+      }
+    },
+    validate() {
+      return (
+        validationRules.required.rule(this.addressState.name) &&
+        validationRules.required.rule(this.addressState.street) &&
+        validationRules.required.rule(this.addressState.building)
+      );
     },
   },
 };

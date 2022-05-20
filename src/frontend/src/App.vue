@@ -21,7 +21,7 @@ export default {
     };
 
     if (this.$jwt.getToken()) {
-      this.$store.$api.setAuthHeader();
+      this.$store.$api.auth.setAuthHeader();
       await this.$store.dispatch("Auth/getMe");
 
       // Если токен невалидный и мы не авторизовались

@@ -9,7 +9,7 @@ export default {
   actions: {
     async fetchOrders({ commit }) {
       let orders = await this.$api.orders.getOrders();
-      //TODO слишком сложно
+
       orders = orders.map((order) => ({
         ...order,
         pizzas: order.pizzas.map((pizza) => ({
@@ -21,11 +21,11 @@ export default {
     },
 
     async post(_, order) {
-      return await this.$api.orders.post(order);
+      return await this.$api.orders.createOrder(order);
     },
 
     async delete({ commit }, id) {
-      await this.$api.orders.delete(id);
+      await this.$api.orders.deleteOrder(id);
       commit(DELETE_ORDER, id);
     },
   },

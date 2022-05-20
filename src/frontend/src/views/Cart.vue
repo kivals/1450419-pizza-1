@@ -57,6 +57,7 @@ import CartList from "@/modules/cart/components/CartList";
 import CartAdditionalList from "@/modules/cart/components/CartAdditionalList";
 import CartDeliveryInfo from "@/modules/cart/components/CartDeliveryInfo";
 import { mapActions, mapGetters, mapState } from "vuex";
+import { calculateOrderPrice } from "@/common/helpers/pizza.helper";
 
 export default {
   components: {
@@ -76,13 +77,23 @@ export default {
   },
   computed: {
     ...mapState("Cart", ["clientPizzas", "selectedMisc"]),
-    ...mapGetters("Cart", ["totalPrice", "hasClientPizzas"]),
+    ...mapGetters("Cart", ["hasClientPizzas"]),
     ...mapGetters("Auth", ["getUserId"]),
+    totalPrice() {
+      return calculateOrderPrice(
+        this.clientPizzas,
+        this.selectedMisc,
+        this.$store
+      );
+    },
   },
   methods: {
     ...mapActions("Orders", ["post"]),
     ...mapActions("Cart", ["clearCart"]),
     async makeOrder() {
+      if (!this.validate()) {
+        return;
+      }
       const sendData = {
         userId: this.getUserId,
         phone: this.phone,
@@ -93,6 +104,9 @@ export default {
       await this.post(sendData);
       this.clearCart();
       await this.$router.push("/success");
+    },
+    validate() {
+      return true;
     },
   },
 };

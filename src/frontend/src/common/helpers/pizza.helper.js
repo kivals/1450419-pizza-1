@@ -17,3 +17,21 @@ export const calculatePizzaPrice = (
   );
   return (saucePrice + ingredientsPrice + doughPrice) * sizeMultiplier;
 };
+
+export const calculateOrderPrice = (pizzas, misc, store) => {
+  const pizzasPrice = pizzas.reduce((sum, pizza) => {
+    const pizzaPrice = pizza.price || calculatePizzaPrice(store, pizza);
+
+    return sum + pizzaPrice * Number(pizza.count);
+  }, 0);
+
+  const miscPrice = misc.reduce((sum, misc) => {
+    const miscEnum = store.getters["miscEnum"];
+
+    const price = Number(miscEnum[misc.id].price);
+    const count = Number(misc.count);
+    return sum + price * count;
+  }, 0);
+
+  return pizzasPrice + miscPrice;
+};

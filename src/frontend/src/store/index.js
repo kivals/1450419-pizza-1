@@ -4,6 +4,7 @@ import Auth from "@/store/modules/auth.store";
 import Builder from "@/store/modules/builder.store";
 import Cart from "@/store/modules/cart.store";
 import Orders from "@/store/modules/orders.store";
+import Address from "@/store/modules/address.store";
 import VuexPlugins from "@/plugins/vuexPlugins";
 import { SET_APP_DATA, SET_LOADING } from "@/store/mutations-types";
 import { resources } from "@/common/enums/resources.enum";
@@ -82,5 +83,6 @@ export default new Vuex.Store({
     Builder,
     Cart,
     Orders,
+    Address,
   },
 });

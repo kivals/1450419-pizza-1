@@ -32,13 +32,22 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
+import { calculateOrderPrice } from "@/common/helpers/pizza.helper";
 
 export default {
   name: "AppLayoutHeader",
   computed: {
     ...mapState("Auth", ["user"]),
-    ...mapGetters("Cart", ["totalPrice"]),
+    ...mapState("Cart", ["clientPizzas"]),
+    ...mapState("Cart", ["selectedMisc"]),
+    totalPrice() {
+      return calculateOrderPrice(
+        this.clientPizzas,
+        this.selectedMisc,
+        this.$store
+      );
+    },
   },
   methods: {
     ...mapActions("Auth", ["logout"]),
