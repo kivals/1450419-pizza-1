@@ -18,14 +18,11 @@
           </div>
 
           <CartDeliveryInfo
-            :street="address.street"
-            :building="address.building"
-            :flat="address.flat"
-            :phone="phone"
-            @change-street="address.street = $event"
-            @change-building="address.building = $event"
-            @change-flat="address.flat = $event"
-            @change-phone="phone = $event"
+            :street.sync="address.street"
+            :building.sync="address.building"
+            :flat.sync="address.flat"
+            :phone.sync="phone"
+            :type.sync="address.type"
           />
         </template>
       </div>
@@ -58,6 +55,8 @@ import CartAdditionalList from "@/modules/cart/components/CartAdditionalList";
 import CartDeliveryInfo from "@/modules/cart/components/CartDeliveryInfo";
 import { mapActions, mapGetters, mapState } from "vuex";
 import { calculateOrderPrice } from "@/common/helpers/pizza.helper";
+import { deliveryType } from "@/common/constants";
+import { validationRules } from "@/common/helpers/validate.helper";
 
 export default {
   components: {
@@ -68,6 +67,7 @@ export default {
   data() {
     return {
       address: {
+        type: deliveryType.SELF,
         street: "",
         building: "",
         flat: "",
@@ -97,7 +97,7 @@ export default {
       const sendData = {
         userId: this.getUserId,
         phone: this.phone,
-        address: this.address,
+        address: this.address.type !== deliveryType.SELF ? this.address : null,
         pizzas: this.clientPizzas,
         misc: this.selectedMisc,
       };
@@ -105,7 +105,18 @@ export default {
       this.clearCart();
       await this.$router.push("/success");
     },
+    //TODO переписать для читаемости
     validate() {
+      if (!validationRules.required.rule(this.phone)) {
+        return false;
+      }
+      if (
+        this.address.type !== deliveryType.SELF &&
+        (!validationRules.required.rule(this.address.street) ||
+          !validationRules.required.rule(this.address.building))
+      ) {
+        return false;
+      }
       return true;
     },
   },

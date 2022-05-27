@@ -103,3 +103,14 @@ export const counterLimit = {
   MIN: 0,
   MAX: 3,
 };
+
+export const deliveryType = {
+  SELF: "self",
+  ADDRESS: "address",
+  HOUSE: "house",
+};
+
+export const titleSizes = {
+  SMALL: "small",
+  BIG: "big",
+};

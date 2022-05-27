@@ -1,27 +1,25 @@
 <template>
   <component :is="componentSize" class="title" :class="styleSize">
-    <slot></slot>
+    <slot />
   </component>
 </template>
 
 <script>
-const sizes = {
-  SMALL: "small",
-  BIG: "big",
-};
+import { titleSizes } from "@/common/constants";
 
 export default {
   name: "AppTitle",
   props: {
     size: {
       type: String,
-      default: sizes.SMALL,
-      validator: (size) => Object.values(sizes).some((value) => value === size),
+      default: titleSizes.SMALL,
+      validator: (size) =>
+        Object.values(titleSizes).some((value) => value === size),
     },
   },
   computed: {
     componentSize() {
-      return this.size === sizes.BIG ? "h1" : "h2";
+      return this.size === titleSizes.BIG ? "h1" : "h2";
     },
     styleSize() {
       return `title__${this.size}`;

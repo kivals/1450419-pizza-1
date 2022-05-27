@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar layout__sidebar">
     <router-link to="/" class="logo layout__logo">
       <img
         src="@/assets/img/logo.svg"
@@ -9,8 +9,18 @@
       />
     </router-link>
 
-    <router-link class="layout__link" to="/orders">История заказов</router-link>
-    <router-link class="layout__link" to="/profile">Мои данные</router-link>
+    <router-link
+      class="layout__link"
+      active-class="layout__link--active"
+      to="/orders"
+      >История заказов</router-link
+    >
+    <router-link
+      class="layout__link"
+      active-class="layout__link--active"
+      to="/profile"
+      >Мои данные</router-link
+    >
   </div>
 </template>
 

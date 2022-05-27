@@ -1,7 +1,7 @@
 <template>
   <div class="sheet">
     <AppTitle class="sheet__title" size="small">
-      <slot name="header-title"></slot>
+      <slot name="header-title" />
     </AppTitle>
 
     <div class="sheet__content">

@@ -41,19 +41,10 @@ export default {
     ...mapGetters(["misc"]),
     ...mapState("Cart", ["selectedMisc"]),
     miscWithCount() {
-      return this.misc.map((miscItem) => {
-        const selectedMiscIndex = this.selectedMisc.findIndex(
-          (selMisc) => selMisc.id === miscItem.id
-        );
-        const count = ~selectedMiscIndex
-          ? this.selectedMisc[selectedMiscIndex].count
-          : 0;
-
-        return {
-          ...miscItem,
-          count,
-        };
-      });
+      return this.misc.map((miscItem) => ({
+        ...miscItem,
+        count: this.selectedMisc.find((m) => m.id === miscItem.id)?.count || 0,
+      }));
     },
   },
   methods: {

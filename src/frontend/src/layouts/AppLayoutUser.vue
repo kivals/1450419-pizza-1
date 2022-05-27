@@ -2,9 +2,7 @@
   <div class="app-layout-main">
     <AppLayoutHeader />
     <main class="layout">
-      <div class="layout__sidebar">
-        <AppLayoutSidebar />
-      </div>
+      <AppLayoutSidebar />
       <div class="layout__content">
         <div class="layout__title">
           <h1 class="title title--big">{{ title }}</h1>

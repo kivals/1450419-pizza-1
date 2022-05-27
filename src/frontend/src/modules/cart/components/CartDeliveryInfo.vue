@@ -4,9 +4,14 @@
       <label class="cart-form__select">
         <span class="cart-form__label">Получение заказа:</span>
 
-        <select v-model="currentOrderType" name="test" class="select">
+        <select
+          :value="type"
+          @change="$emit('update:type', $event.target.value)"
+          name="test"
+          class="select"
+        >
           <option
-            v-for="type in allowOrderTypes"
+            v-for="type in filteredOrderType"
             :key="type.value"
             :value="type.value"
           >
@@ -21,7 +26,8 @@
           type="text"
           name="tel"
           placeholder="+7 999-999-99-99"
-          v-model="delivery.phone"
+          :value="this.phone"
+          @input="$emit('update:phone', $event.target.value)"
         />
       </label>
 
@@ -31,21 +37,39 @@
         <div class="cart-form__input">
           <label class="input">
             <span>Улица*</span>
-            <input type="text" name="street" v-model="delivery.street" />
+            <input
+              type="text"
+              name="street"
+              ref="street"
+              :value="this.street"
+              @input="$emit('update:street', $event.target.value)"
+            />
           </label>
         </div>
 
         <div class="cart-form__input cart-form__input--small">
           <label class="input">
             <span>Дом*</span>
-            <input type="text" name="house" v-model="delivery.building" />
+            <input
+              type="text"
+              name="house"
+              ref="building"
+              :value="this.building"
+              @input="$emit('update:building', $event.target.value)"
+            />
           </label>
         </div>
 
         <div class="cart-form__input cart-form__input--small">
           <label class="input">
             <span>Квартира</span>
-            <input type="text" name="apartment" v-model="delivery.flat" />
+            <input
+              type="text"
+              name="apartment"
+              ref="flat"
+              :value="this.flat"
+              @input="$emit('update:flat', $event.target.value)"
+            />
           </label>
         </div>
       </div>
@@ -55,21 +79,23 @@
 
 <script>
 import { mapState } from "vuex";
+import { deliveryType } from "@/common/constants";
 
-const orderTypes = [
+const addressConfig = [
   {
-    value: "self",
+    value: deliveryType.SELF,
     description: "Заберу сам",
     auth: false,
+    needAddress: false,
   },
   {
-    value: "address",
+    value: deliveryType.ADDRESS,
     description: "Новый адрес",
     auth: false,
     needAddress: true,
   },
   {
-    value: "house",
+    value: deliveryType.HOUSE,
     description: "Дом",
     auth: true,
     needAddress: true,
@@ -95,54 +121,20 @@ export default {
       type: String,
       default: "",
     },
-  },
-  data() {
-    return {
-      currentOrderType: orderTypes[0].value,
-      delivery: {
-        street: this.street,
-        building: this.building,
-        flat: this.flat,
-        phone: this.phone,
-      },
-    };
+    type: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     ...mapState("Auth", ["isAuthenticated"]),
-    allowOrderTypes() {
-      return this.isAuthenticated
-        ? orderTypes
-        : orderTypes.filter((t) => !t.auth);
+    filteredOrderType() {
+      return Object.values(addressConfig).filter((type) => {
+        return !this.isAuthenticated ? !type.auth : true;
+      });
     },
     showDeliveryAddress() {
-      return orderTypes.find((t) => t.value === this.currentOrderType)
-        ?.needAddress;
-    },
-  },
-  methods: {
-    clearAddressForm() {
-      this.delivery.street = "";
-      this.delivery.building = "";
-      this.delivery.flat = "";
-    },
-  },
-  watch: {
-    "delivery.street"(value) {
-      this.$emit("change-street", value);
-    },
-    "delivery.building"(value) {
-      this.$emit("change-building", value);
-    },
-    "delivery.flat"(value) {
-      this.$emit("change-flat", value);
-    },
-    "delivery.phone"(value) {
-      this.$emit("change-phone", value);
-    },
-    currentOrderType() {
-      if (!this.showDeliveryAddress) {
-        this.clearAddressForm();
-      }
+      return addressConfig.find((type) => type.value === this.type).needAddress;
     },
   },
 };

@@ -54,10 +54,4 @@ export default {
   margin-right: 17px;
   margin-bottom: 35px;
 }
-
-.ingredients__counter {
-  width: 54px;
-  margin-top: 10px;
-  margin-left: 36px;
-}
 </style>

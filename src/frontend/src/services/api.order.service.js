@@ -103,7 +103,7 @@ export class ApiOrderService extends ApiBaseService {
     return {
       userId,
       phone,
-      address: this._prepareAddress(address),
+      address: address && this._prepareAddress(address),
       pizzas: pizzas.map((pizza) => ({
         name: pizza.name,
         sauceId: pizza.sauceId,
@@ -122,9 +122,11 @@ export class ApiOrderService extends ApiBaseService {
     };
   }
 
-  _prepareAddress(address) {
-    return !address?.street || !address?.building || !address?.flat
-      ? null
-      : address;
+  _prepareAddress({ street, building, flat }) {
+    return {
+      street,
+      building,
+      flat,
+    };
   }
 }
