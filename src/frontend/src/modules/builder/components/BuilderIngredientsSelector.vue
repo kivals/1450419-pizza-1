@@ -1,24 +1,23 @@
 <template>
-  <div class="content__ingredients">
-    <div class="sheet">
-      <h2 class="title title--small sheet__title">Выберите ингредиенты</h2>
-
-      <div class="sheet__content ingredients">
+  <AppSheet>
+    <template #header-title>Выберите ингредиенты</template>
+    <template #content>
+      <div class="ingredients">
         <BuilderSauceSelector />
-
         <BuilderIngredientList />
       </div>
-    </div>
-  </div>
+    </template>
+  </AppSheet>
 </template>
 
 <script>
 import BuilderSauceSelector from "@/modules/builder/components/BuilderSauceSelector";
 import BuilderIngredientList from "@/modules/builder/components/BuilderIngredientList";
+import AppSheet from "@/common/components/AppSheet";
 
 export default {
   name: "BuilderIngredientsSelector",
-  components: { BuilderSauceSelector, BuilderIngredientList },
+  components: { AppSheet, BuilderSauceSelector, BuilderIngredientList },
 };
 </script>
 

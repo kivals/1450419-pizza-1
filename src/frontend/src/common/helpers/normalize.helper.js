@@ -4,6 +4,7 @@ import {
   ingredientTypes,
   sizeTypes,
 } from "@/common/constants";
+import { getFileNameFromPath } from "@/common/helpers/common.helper";
 
 export const normalizeDough = (dough) => normalizeWithType(dough, doughTypes);
 
@@ -14,9 +15,10 @@ export const normalizeIngredient = (ingredient) =>
 
 export const normalizeSize = (size) => normalizeWithType(size, sizeTypes);
 
-export const getFileNameFromPath = (path) => {
-  return path.split("/").pop();
-};
+export const normalizeMisc = (misc) => ({
+  ...misc,
+  image: getFileNameFromPath(misc.image),
+});
 
 const normalizeWithType = (source, types) => ({
   ...source,

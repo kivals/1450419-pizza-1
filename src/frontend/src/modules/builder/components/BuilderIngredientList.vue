@@ -22,9 +22,36 @@ export default {
     BuilderIngredientItem,
   },
   computed: {
-    ...mapGetters("Builder", ["ingredients"]),
+    ...mapGetters(["ingredients"]),
   },
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "~@/assets/scss/mixins/mixins.scss";
+.ingredients__filling {
+  width: 100%;
+
+  p {
+    @include r-s16-h19;
+
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+}
+
+.ingredients__list {
+  @include clear-list;
+
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.ingredients__item {
+  width: 100px;
+  min-height: 40px;
+  margin-right: 17px;
+  margin-bottom: 35px;
+}
+</style>

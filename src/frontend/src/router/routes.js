@@ -1,3 +1,5 @@
+import { auth, isLoggedIn } from "@/middlewares";
+
 export default [
   {
     path: "/",
@@ -15,19 +17,23 @@ export default [
     path: "/orders",
     name: "Orders",
     component: () => import("@/views/Orders"),
-    meta: { layout: "AppLayoutMain" },
+    meta: {
+      layout: "AppLayoutUser",
+      title: "История заказов",
+      middlewares: [auth],
+    },
   },
   {
     path: "/profile",
     name: "Profile",
     component: () => import("@/views/Profile"),
-    meta: { layout: "AppLayoutMain" },
+    meta: { layout: "AppLayoutUser", title: "Мои данные", middlewares: [auth] },
   },
   {
     path: "/login",
     name: "Login",
     component: () => import("@/views/Login"),
-    meta: { layout: "AppLayoutLogin" },
+    meta: { layout: "AppLayoutLogin", middlewares: [isLoggedIn] },
   },
   {
     path: "/success",

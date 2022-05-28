@@ -4,9 +4,14 @@
       <label class="cart-form__select">
         <span class="cart-form__label">Получение заказа:</span>
 
-        <select v-model="currentOrderType" name="test" class="select">
+        <select
+          :value="type"
+          @change="$emit('update:type', $event.target.value)"
+          name="test"
+          class="select"
+        >
           <option
-            v-for="type in allowOrderTypes"
+            v-for="type in filteredOrderType"
             :key="type.value"
             :value="type.value"
           >
@@ -17,7 +22,13 @@
 
       <label class="input input--big-label">
         <span>Контактный телефон:</span>
-        <input type="text" name="tel" placeholder="+7 999-999-99-99" />
+        <input
+          type="text"
+          name="tel"
+          placeholder="+7 999-999-99-99"
+          :value="this.phone"
+          @input="$emit('update:phone', $event.target.value)"
+        />
       </label>
 
       <div v-if="showDeliveryAddress" class="cart-form__address">
@@ -26,21 +37,39 @@
         <div class="cart-form__input">
           <label class="input">
             <span>Улица*</span>
-            <input type="text" name="street" />
+            <input
+              type="text"
+              name="street"
+              ref="street"
+              :value="this.street"
+              @input="$emit('update:street', $event.target.value)"
+            />
           </label>
         </div>
 
         <div class="cart-form__input cart-form__input--small">
           <label class="input">
             <span>Дом*</span>
-            <input type="text" name="house" />
+            <input
+              type="text"
+              name="house"
+              ref="building"
+              :value="this.building"
+              @input="$emit('update:building', $event.target.value)"
+            />
           </label>
         </div>
 
         <div class="cart-form__input cart-form__input--small">
           <label class="input">
             <span>Квартира</span>
-            <input type="text" name="apartment" />
+            <input
+              type="text"
+              name="apartment"
+              ref="flat"
+              :value="this.flat"
+              @input="$emit('update:flat', $event.target.value)"
+            />
           </label>
         </div>
       </div>
@@ -50,26 +79,62 @@
 
 <script>
 import { mapState } from "vuex";
-import { orderTypes } from "@/common/constants";
+import { deliveryType } from "@/common/constants";
+
+const addressConfig = [
+  {
+    value: deliveryType.SELF,
+    description: "Заберу сам",
+    auth: false,
+    needAddress: false,
+  },
+  {
+    value: deliveryType.ADDRESS,
+    description: "Новый адрес",
+    auth: false,
+    needAddress: true,
+  },
+  {
+    value: deliveryType.HOUSE,
+    description: "Дом",
+    auth: true,
+    needAddress: true,
+  },
+];
 
 export default {
   name: "CartDeliveryInfo",
-  data() {
-    return {
-      orderTypes,
-      currentOrderType: orderTypes[0].value,
-    };
+  props: {
+    street: {
+      type: String,
+      default: "",
+    },
+    building: {
+      type: String,
+      default: "",
+    },
+    flat: {
+      type: String,
+      default: "",
+    },
+    phone: {
+      type: String,
+      default: "",
+    },
+    type: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
-    ...mapState("Auth", ["user"]),
-    allowOrderTypes() {
-      return this.user
-        ? this.orderTypes
-        : this.orderTypes.filter((t) => !t.auth);
+    ...mapState("Auth", ["isAuthenticated"]),
+    filteredOrderType() {
+      return Object.values(addressConfig).filter((type) => {
+        return !this.isAuthenticated ? !type.auth : true;
+      });
     },
     showDeliveryAddress() {
-      return this.orderTypes.find((t) => t.value === this.currentOrderType)
-        .needAddress;
+      return addressConfig.find((type) => type.value === this.type).needAddress;
     },
   },
 };

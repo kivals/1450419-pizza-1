@@ -8,6 +8,7 @@
     <ItemCounter
       class="counter--orange ingredients__counter"
       :counter="ingredientWithCount.count"
+      :max-count="countLimit"
       @change="changeCount"
     />
   </li>
@@ -29,6 +30,7 @@ export default {
   },
   computed: {
     ...mapGetters("Builder", ["selectedIngredientsIds"]),
+    ...mapGetters(["ingredientsEnum"]),
     ingredientWithCount() {
       const selectedIngredient = this.selectedIngredientsIds.find(
         (ing) => ing.id === this.ingredient.id
@@ -45,8 +47,11 @@ export default {
         count: this.ingredientWithCount.count + 1,
       };
     },
+    countLimit() {
+      return counterLimit.MAX;
+    },
     isMaxLimit() {
-      return this.ingredientWithCount.count >= counterLimit.MAX;
+      return this.ingredientWithCount.count >= this.countLimit;
     },
   },
   methods: {
@@ -58,4 +63,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.ingredients__counter {
+  width: 54px;
+  margin-top: 10px;
+  margin-left: 36px;
+}
+</style>

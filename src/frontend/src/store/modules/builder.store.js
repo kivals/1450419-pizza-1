@@ -1,81 +1,53 @@
 import {
-  SET_BUILDER,
   SET_SELECTED_PIZZA,
   SET_SELECTED_PIZZA_ENTITY,
 } from "@/store/mutations-types";
 import { uniqueId } from "lodash";
-import pizzaJson from "@/static/pizza.json";
-import {
-  normalizeDough,
-  normalizeIngredient,
-  normalizeSauce,
-  normalizeSize,
-} from "@/common/helpers";
 
 export default {
   namespaced: true,
   state: {
-    builder: {
-      dough: [],
-      sauces: [],
-      ingredients: [],
-      sizes: [],
-    },
     selectedPizza: {
       name: "",
-      dough: null,
-      size: null,
+      doughId: null,
+      sizeId: null,
       ingredients: [],
-      sauce: null,
+      sauceId: null,
     },
   },
   actions: {
-    fetchBuilder({ commit }) {
-      const builderData = {
-        ...pizzaJson,
-        dough: pizzaJson.dough.map((dough) => normalizeDough(dough)),
-        sauces: pizzaJson.sauces.map((sauce) => normalizeSauce(sauce)),
-        ingredients: pizzaJson.ingredients.map((ingredient) =>
-          normalizeIngredient(ingredient)
-        ),
-        sizes: pizzaJson.sizes.map((size) => normalizeSize(size)),
-      };
-      commit(SET_BUILDER, builderData);
-    },
     /**
      * Инициализирует начальное состояние сущности выбранной пиццы
-     * @param commit
-     * @param state
      * @param initial заданное начальное состояние
      */
-    initSelectedPizza({ commit, state }, initial) {
+    initSelectedPizza({ commit, rootGetters }, initial) {
       const defaultPizza = {};
       if (!initial) {
         defaultPizza.id = uniqueId();
         defaultPizza.name = "";
-        defaultPizza.dough = state.builder.dough[0].id;
-        defaultPizza.size = state.builder.sizes[0].id;
+        defaultPizza.doughId = rootGetters.dough[0].id;
+        defaultPizza.sizeId = rootGetters.sizes[0].id;
         defaultPizza.ingredients = [];
-        defaultPizza.sauce = state.builder.sauces[0].id;
+        defaultPizza.sauceId = rootGetters.sauces[0].id;
         defaultPizza.count = 1;
       }
       commit(SET_SELECTED_PIZZA, initial || defaultPizza);
     },
     selectDough({ commit }, doughId) {
       commit(SET_SELECTED_PIZZA_ENTITY, {
-        entity: "dough",
+        entity: "doughId",
         value: doughId,
       });
     },
     selectSize({ commit }, sizeId) {
       commit(SET_SELECTED_PIZZA_ENTITY, {
-        entity: "size",
+        entity: "sizeId",
         value: sizeId,
       });
     },
     selectSauce({ commit }, sauceId) {
       commit(SET_SELECTED_PIZZA_ENTITY, {
-        entity: "sauce",
+        entity: "sauceId",
         value: sauceId,
       });
     },
@@ -124,10 +96,6 @@ export default {
     },
   },
   mutations: {
-    [SET_BUILDER](state, builder) {
-      state.builder = builder;
-    },
-
     [SET_SELECTED_PIZZA](state, selectedPizza) {
       state.selectedPizza = selectedPizza;
     },
@@ -138,67 +106,27 @@ export default {
   },
 
   getters: {
-    dough: ({ builder }) => builder.dough,
-    sizes: ({ builder }) => builder.sizes,
-    sauces: ({ builder }) => builder.sauces,
-    ingredients: ({ builder }) => builder.ingredients,
+    selectedDoughId: ({ selectedPizza }) => selectedPizza.doughId,
+    selectedDough: (state, getters, rootState, rootGetters) =>
+      rootGetters.doughEnum[getters.selectedDoughId],
 
-    selectedDoughId: ({ selectedPizza }) => selectedPizza.dough,
-    selectedDough: (_, { dough, selectedDoughId }) =>
-      dough.find((d) => d.id === selectedDoughId),
+    selectedSizeId: ({ selectedPizza }) => selectedPizza.sizeId,
+    selectedSize: (state, getters, rootState, rootGetters) =>
+      rootGetters.sizeEnum[getters.selectedSizeId],
 
-    selectedSizeId: ({ selectedPizza }) => selectedPizza.size,
-    selectedSize: (_, { sizes, selectedSizeId }) =>
-      sizes.find((s) => s.id === selectedSizeId),
-
-    selectedSauceId: ({ selectedPizza }) => selectedPizza.sauce,
-    selectedSauce: (_, { sauces, selectedSauceId }) =>
-      sauces.find((s) => s.id === selectedSauceId),
+    selectedSauceId: ({ selectedPizza }) => selectedPizza.sauceId,
+    selectedSauce: (state, getters, rootState, rootGetters) =>
+      rootGetters.sauceEnum[getters.selectedSauceId],
 
     selectedIngredientsIds: ({ selectedPizza }) => selectedPizza.ingredients,
-    selectedIngredients: (_, { ingredients, selectedIngredientsIds }) =>
-      ingredients
-        .filter((ing) => selectedIngredientsIds.some((s) => s.id === ing.id))
-        .map((selected) => ({
-          ...selected,
-          count: selectedIngredientsIds.find((s) => s.id === selected.id).count,
-        })),
+    selectedIngredients: (state, getters, rootState, rootGetters) =>
+      getters.selectedIngredientsIds.map(({ id, count }) => ({
+        ...rootGetters.ingredientsEnum[id],
+        count,
+      })),
 
     pizzaName: ({ selectedPizza }) => selectedPizza.name,
-    doughPrice: (_, { selectedDough }) => Number(selectedDough.price),
-    saucePrice: (_, { selectedSauce }) => Number(selectedSauce.price),
-    sizePriceMultiplier: (_, { selectedSize }) =>
-      Number(selectedSize.multiplier),
-    ingredientsTotalPrice: (_, { selectedIngredients }) =>
-      selectedIngredients.reduce(
-        (total, { price, count }) =>
-          Number(total) + Number(price) * Number(count),
-        0
-      ),
-    totalPrice: (
-      _,
-      { doughPrice, saucePrice, sizePriceMultiplier, ingredientsTotalPrice }
-    ) =>
-      (doughPrice + saucePrice + ingredientsTotalPrice) * sizePriceMultiplier,
     hasPizzaName: ({ selectedPizza }) => selectedPizza.name.length > 0,
     hasIngredients: ({ selectedPizza }) => selectedPizza.ingredients.length > 0,
-    sizeNamesEnum: (_, { sizes }) =>
-      sizes.reduce(
-        (result, item) => ({
-          ...result,
-          [item.id]: item.name,
-        }),
-        {}
-      ),
-    sauceNamesEnum: (_, { sauces }) =>
-      sauces.reduce(
-        (result, item) => ({ ...result, [item.id]: item.name }),
-        {}
-      ),
-    ingredientNamesEnum: (_, { ingredients }) =>
-      ingredients.reduce(
-        (result, item) => ({ ...result, [item.id]: item.name }),
-        {}
-      ),
   },
 };
