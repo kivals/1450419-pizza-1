@@ -1,5 +1,6 @@
 <template>
   <form action="#" method="post" class="layout-form">
+    <SuccessPopup v-show="isSuccessPopupVisible" @close="closeSuccessModal" />
     <main class="content cart">
       <div class="container">
         <div class="cart__title">
@@ -53,6 +54,7 @@
 import CartList from "@/modules/cart/components/CartList";
 import CartAdditionalList from "@/modules/cart/components/CartAdditionalList";
 import CartDeliveryInfo from "@/modules/cart/components/CartDeliveryInfo";
+import SuccessPopup from "@/views/SuccessPopup";
 import { mapActions, mapGetters, mapState } from "vuex";
 import { calculateOrderPrice } from "@/common/helpers/pizza.helper";
 import { deliveryType } from "@/common/constants";
@@ -63,6 +65,7 @@ export default {
     CartList,
     CartAdditionalList,
     CartDeliveryInfo,
+    SuccessPopup,
   },
   data() {
     return {
@@ -73,10 +76,12 @@ export default {
         flat: "",
       },
       phone: "",
+      isSuccessPopupVisible: false,
     };
   },
   computed: {
     ...mapState("Cart", ["clientPizzas", "selectedMisc"]),
+    ...mapState("Auth", ["isAuthenticated"]),
     ...mapGetters("Cart", ["hasClientPizzas"]),
     ...mapGetters("Auth", ["getUserId"]),
     totalPrice() {
@@ -102,8 +107,7 @@ export default {
         misc: this.selectedMisc,
       };
       await this.post(sendData);
-      this.clearCart();
-      await this.$router.push("/success");
+      this.isSuccessPopupVisible = true;
     },
     //TODO переписать для читаемости
     validate() {
@@ -118,6 +122,12 @@ export default {
         return false;
       }
       return true;
+    },
+    closeSuccessModal() {
+      this.clearCart();
+      this.isAuthenticated
+        ? this.$router.push({ name: "Orders" })
+        : this.$router.push({ name: "IndexHome" });
     },
   },
 };
