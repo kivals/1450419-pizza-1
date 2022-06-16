@@ -34,15 +34,4 @@ describe("AppTitle", () => {
     createComponent({ propsData });
     expect(wrapper.element.tagName).toEqual("H2");
   });
-
-  it("Title error", () => {
-    let spy = jest.spyOn(console, "error");
-    let propsData = {
-      size: "not valid value",
-    };
-    createComponent({ propsData });
-    expect(spy).toBeCalledWith(
-      expect.stringContaining("[Vue warn]: Invalid prop")
-    );
-  });
 });
