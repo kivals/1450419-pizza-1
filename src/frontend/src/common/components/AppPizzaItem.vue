@@ -8,10 +8,10 @@
       :alt="name"
     />
     <div class="product__text">
-      <h2>{{ name }}</h2>
+      <h2 data-test="name">{{ name }}</h2>
       <ul>
-        <li>{{ doughInfo }}</li>
-        <li>Соус: {{ sauceInfo }}</li>
+        <li data-test="dough-info">{{ doughInfo }}</li>
+        <li data-test="sauce-info">Соус: {{ sauceInfo }}</li>
         <li>
           Начинка:
           {{ ingredientsInfo }}
