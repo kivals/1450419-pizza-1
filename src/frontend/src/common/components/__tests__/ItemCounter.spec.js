@@ -2,11 +2,6 @@ import { shallowMount } from "@vue/test-utils";
 import ItemCounter from "@/common/components/ItemCounter";
 
 describe("ItemCounter", () => {
-  let propsData = {
-    counter: 1,
-    maxCount: 10,
-  };
-
   let wrapper;
   const createComponent = (options) => {
     wrapper = shallowMount(ItemCounter, options);
@@ -17,17 +12,25 @@ describe("ItemCounter", () => {
   });
 
   it("button plus emit change event", async () => {
+    let propsData = {
+      counter: 1,
+      maxCount: 10,
+    };
     createComponent({ propsData });
     const button = wrapper.find(".counter__button--plus");
     await button.trigger("click");
-    expect(wrapper.emitted().change).toBeTruthy();
+    expect(wrapper.emitted().change[0][0]).toEqual(propsData.counter + 1);
   });
 
   it("button minus emit change event", async () => {
+    let propsData = {
+      counter: 1,
+      maxCount: 10,
+    };
     createComponent({ propsData });
     const button = wrapper.find(".counter__button--minus");
     await button.trigger("click");
-    expect(wrapper.emitted().change).toBeTruthy();
+    expect(wrapper.emitted().change[0][0]).toEqual(propsData.counter - 1);
   });
 
   it("button minus is disabled", async () => {

@@ -1,9 +1,12 @@
 <template>
   <li class="ingredients__item">
     <AppDrag :transfer-data="transferData" :draggable="!isMaxLimit">
-      <span class="filling" :class="`filling--${ingredientWithCount.type}`">{{
-        ingredientWithCount.name
-      }}</span>
+      <span
+        class="filling"
+        :class="`filling--${ingredientWithCount.type}`"
+        data-test="span"
+        >{{ ingredientWithCount.name }}</span
+      >
     </AppDrag>
     <ItemCounter
       class="counter--orange ingredients__counter"

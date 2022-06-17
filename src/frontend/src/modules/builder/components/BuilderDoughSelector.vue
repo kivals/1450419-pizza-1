@@ -8,14 +8,16 @@
           :key="id"
           class="dough__input"
           :class="`dough__input--${type}`"
+          data-test="label"
         >
           <input
             type="radio"
             name="dough"
             :value="type"
-            :checked="id === selectedDoughId"
+            :checked="true"
             class="visually-hidden"
             @click="selectDough(id)"
+            data-test="input"
           />
           <b>{{ name }}</b>
           <span>{{ description }}</span>

@@ -22,6 +22,7 @@
             placeholder="Введите название пиццы"
             :value="pizzaName"
             @input="changePizzaName($event.target.value)"
+            data-set="change-name"
           />
         </label>
 
@@ -35,6 +36,7 @@
             class="button"
             :disabled="!allowToCook"
             @click="moveToCart"
+            data-set="button"
           >
             Готовьте!
           </button>

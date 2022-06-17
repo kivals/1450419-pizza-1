@@ -7,14 +7,15 @@ import pizza from "@/static/pizza.json";
 import misc from "@/static/misc.json";
 
 import VuexPlugins from "@/plugins/vuexPlugins";
+import {normalizeDough, normalizeIngredient, normalizeSauce, normalizeSize} from "@/common/helpers/normalize.helper";
 
 const initState = () => ({
   loading: false,
   appData: {
-    dough: pizza.dough,
-    sauces: pizza.sauces,
-    ingredients: pizza.ingredients,
-    sizes: pizza.sizes,
+    dough: pizza.dough.map(normalizeDough),
+    sauces: pizza.sauces.map(normalizeSauce),
+    ingredients: pizza.ingredients.map(normalizeIngredient),
+    sizes: pizza.sizes.map(normalizeSize),
     misc,
   },
 });

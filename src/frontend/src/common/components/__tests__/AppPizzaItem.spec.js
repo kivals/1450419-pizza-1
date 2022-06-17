@@ -21,7 +21,6 @@ describe("AppPizzaItem", () => {
     wrapper.destroy();
   });
 
-
   it("is rendered", () => {
     let propsData = {
       name: "name",
@@ -34,7 +33,7 @@ describe("AppPizzaItem", () => {
     expect(wrapper.exists()).toBeTruthy();
   });
 
-  it("is rendered2", () => {
+  it("it generates right description", () => {
     let propsData = {
       name: "name",
       sizeId: 1,
