@@ -20,7 +20,7 @@ export default {
      * Инициализирует начальное состояние сущности выбранной пиццы
      * @param initial заданное начальное состояние
      */
-    initSelectedPizza({ commit, rootGetters }, initial) {
+    initSelectedPizza({ commit, rootGetters }, initial = false) {
       const defaultPizza = {};
       if (!initial) {
         defaultPizza.id = uniqueId();

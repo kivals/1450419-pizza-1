@@ -49,7 +49,7 @@ const actions = {
   },
 };
 
-const mutations = {
+export const mutations = {
   [SET_LOADING](state, loading) {
     state.loading = loading;
   },
@@ -58,7 +58,7 @@ const mutations = {
   },
 };
 
-const getters = {
+export const getters = {
   dough: ({ appData }) => appData.dough,
   sizes: ({ appData }) => appData.sizes,
   sauces: ({ appData }) => appData.sauces,
