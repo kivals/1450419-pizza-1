@@ -7,7 +7,10 @@
       >
         <div class="pizza__wrapper">
           <transition-group name="drop">
-            <div v-for="ingredient of selectedIngredients" :key="ingredient.id">
+            <div
+              v-for="ingredient of selectedIngredients"
+              :key="ingredient.id"
+            >
               <div
                 :key="ingredient.id"
                 class="pizza__filling"

@@ -1,6 +1,9 @@
 <template>
   <ul class="order__additional">
-    <li v-for="product in orderedProducts" :key="product.id">
+    <li
+      v-for="product in orderedProducts"
+      :key="product.id"
+    >
       <img
         :src="require(`@/assets/img/${product.image}`)"
         width="20"

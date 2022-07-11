@@ -1,5 +1,8 @@
 <template>
-  <section class="order" v-if="order">
+  <section
+    class="order"
+    v-if="order"
+  >
     <OrderHeader
       :order-id="orderId"
       @delete-order="deleteOrderHandler"
@@ -7,7 +10,11 @@
     />
 
     <ul class="order__list">
-      <li class="order__item" v-for="pizza in order.pizzas" :key="pizza.id">
+      <li
+        class="order__item"
+        v-for="pizza in order.pizzas"
+        :key="pizza.id"
+      >
         <AppPizzaItem
           :name="pizza.name"
           :size-id="pizza.sizeId"

@@ -11,11 +11,11 @@
           class="select"
         >
           <option
-            v-for="type in filteredOrderType"
-            :key="type.value"
-            :value="type.value"
+            v-for="filterType in filteredOrderType"
+            :key="filterType.value"
+            :value="filterType.value"
           >
-            {{ type.description }}
+            {{ filterType.description }}
           </option>
         </select>
       </label>
@@ -31,7 +31,10 @@
         />
       </label>
 
-      <div v-if="showDeliveryAddress" class="cart-form__address">
+      <div
+        v-if="showDeliveryAddress"
+        class="cart-form__address"
+      >
         <span class="cart-form__label">Новый адрес:</span>
 
         <div class="cart-form__input">

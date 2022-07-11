@@ -1,6 +1,9 @@
 <template>
   <li class="ingredients__item">
-    <AppDrag :transfer-data="transferData" :draggable="!isMaxLimit">
+    <AppDrag
+      :transfer-data="transferData"
+      :draggable="!isMaxLimit"
+    >
       <span
         class="filling"
         :class="`filling--${ingredientWithCount.type}`"

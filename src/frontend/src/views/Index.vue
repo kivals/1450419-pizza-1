@@ -1,9 +1,15 @@
 <template>
-  <form action="#" method="post">
+  <form
+    action="#"
+    method="post"
+  >
     <div class="content__wrapper">
       <AppTitle size="big">Конструктор пиццы</AppTitle>
 
-      <div v-if="dough" class="content__dough">
+      <div
+        v-if="dough"
+        class="content__dough"
+      >
         <BuilderDoughSelector />
       </div>
 

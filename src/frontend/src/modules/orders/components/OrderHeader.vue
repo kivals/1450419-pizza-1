@@ -18,7 +18,11 @@
       </button>
     </div>
     <div class="order__button">
-      <button @click="repeatOrderHandler" type="button" class="button">
+      <button
+        @click="repeatOrderHandler"
+        type="button"
+        class="button"
+      >
         Повторить
       </button>
     </div>

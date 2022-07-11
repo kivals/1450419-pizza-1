@@ -1,13 +1,23 @@
 <template>
-  <form action="#" method="post" class="layout-form">
-    <SuccessPopup v-show="isSuccessPopupVisible" @close="closeSuccessModal" />
+  <form
+    action="#"
+    method="post"
+    class="layout-form"
+  >
+    <SuccessPopup
+      v-show="isSuccessPopupVisible"
+      @close="closeSuccessModal"
+    />
     <main class="content cart">
       <div class="container">
         <div class="cart__title">
           <h1 class="title title--big">Корзина</h1>
         </div>
 
-        <div v-if="!hasClientPizzas" class="sheet cart__empty">
+        <div
+          v-if="!hasClientPizzas"
+          class="sheet cart__empty"
+        >
           <p>В корзине нет ни одного товара</p>
         </div>
 
@@ -15,7 +25,7 @@
           <CartList />
 
           <div class="cart__additional">
-            <CartAdditionalList />
+            <CartAdditional />
           </div>
 
           <CartDeliveryInfo
@@ -28,11 +38,17 @@
         </template>
       </div>
     </main>
-    <section v-if="hasClientPizzas" class="footer">
+    <section
+      v-if="hasClientPizzas"
+      class="footer"
+    >
       <div class="footer__more">
-        <router-link to="/" class="button button--border button--arrow"
-          >Хочу еще одну</router-link
-        >
+        <router-link
+          to="/"
+          class="button button--border button--arrow"
+          >
+          Хочу еще одну
+        </router-link>
       </div>
       <p class="footer__text">
         Перейти к конструктору<br />чтоб собрать ещё одну пиццу
@@ -42,7 +58,11 @@
       </div>
 
       <div class="footer__submit">
-        <button @click.prevent="makeOrder" type="submit" class="button">
+        <button
+          @click.prevent="makeOrder"
+          type="submit"
+          class="button"
+        >
           Оформить заказ
         </button>
       </div>
@@ -52,7 +72,7 @@
 
 <script>
 import CartList from "@/modules/cart/components/CartList";
-import CartAdditionalList from "@/modules/cart/components/CartAdditionalList";
+import CartAdditional from "@/modules/cart/components/CartAdditional";
 import CartDeliveryInfo from "@/modules/cart/components/CartDeliveryInfo";
 import SuccessPopup from "@/views/SuccessPopup";
 import { mapActions, mapGetters, mapState } from "vuex";
@@ -63,7 +83,7 @@ import { validationRules } from "@/common/helpers/validate.helper";
 export default {
   components: {
     CartList,
-    CartAdditionalList,
+    CartAdditional: CartAdditional,
     CartDeliveryInfo,
     SuccessPopup,
   },

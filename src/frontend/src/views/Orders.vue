@@ -1,6 +1,10 @@
 <template>
   <div v-if="orders.length">
-    <OrderItem v-for="{ id } in orders" :key="id" :orderId="id" />
+    <OrderItem
+      v-for="{ id } in orders"
+      :key="id"
+      :order-id="id"
+    />
   </div>
 </template>
 

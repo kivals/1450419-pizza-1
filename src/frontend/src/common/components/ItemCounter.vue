@@ -39,10 +39,12 @@ export default {
     },
     colorTheme: {
       type: String,
+      default: "",
       required: false,
     },
     maxCount: {
       type: Number,
+      default: 0,
       required: false,
     },
   },

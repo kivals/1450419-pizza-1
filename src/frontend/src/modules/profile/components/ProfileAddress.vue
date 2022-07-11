@@ -3,7 +3,11 @@
     <div class="address-form__header">
       <b>{{ preparedAddress.name }}</b>
       <div class="address-form__edit">
-        <button type="button" class="icon" @click="onEditClick">
+        <button
+          type="button"
+          class="icon"
+          @click="onEditClick"
+        >
           <span class="visually-hidden">Изменить адрес</span>
         </button>
       </div>

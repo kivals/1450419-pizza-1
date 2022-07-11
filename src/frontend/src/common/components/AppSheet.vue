@@ -1,6 +1,9 @@
 <template>
   <div class="sheet">
-    <AppTitle class="sheet__title" size="small">
+    <AppTitle
+      class="sheet__title"
+      size="small"
+    >
       <slot name="header-title" />
     </AppTitle>
 

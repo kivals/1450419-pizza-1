@@ -16,8 +16,8 @@
             :value="type"
             :checked="true"
             class="visually-hidden"
-            @click="selectDough(id)"
             data-test="input"
+            @click="selectDough(id)"
           />
           <b>{{ name }}</b>
           <span>{{ description }}</span>

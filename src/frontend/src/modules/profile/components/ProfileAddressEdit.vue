@@ -1,6 +1,9 @@
 <template>
   <form class="address-form address-form--opened sheet">
-    <div v-if="addressState.id" class="address-form__header">
+    <div
+      v-if="addressState.id"
+      class="address-form__header"
+    >
       <b>{{ addressState.name }}</b>
     </div>
 
@@ -74,7 +77,11 @@
       >
         Удалить
       </button>
-      <button type="submit" class="button" @click.prevent="onSaveClick">
+      <button
+        type="submit"
+        class="button"
+        @click.prevent="onSaveClick"
+      >
         Сохранить
       </button>
     </div>

@@ -1,5 +1,9 @@
 <template>
-  <component :is="componentSize" class="title" :class="styleSize">
+  <component
+    :is="componentSize"
+    class="title"
+    :class="styleSize"
+  >
     <slot />
   </component>
 </template>

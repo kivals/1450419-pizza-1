@@ -1,7 +1,11 @@
 <template>
   <div>
     <ul class="cart-list sheet">
-      <li v-for="pizza in cartPizzas" :key="pizza.id" class="cart-list__item">
+      <li
+        v-for="pizza in cartPizzas"
+        :key="pizza.id"
+        class="cart-list__item"
+      >
         <AppPizzaItem
           :name="pizza.name"
           :size-id="pizza.sizeId"

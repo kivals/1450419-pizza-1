@@ -16,8 +16,14 @@
       />
     </div>
 
-    <div class="layout__address" v-if="isOpenedForm">
-      <ProfileAddressEdit @delete="onFormCloseClick" @save="onSaveClick" />
+    <div
+      class="layout__address"
+      v-if="isOpenedForm"
+    >
+      <ProfileAddressEdit
+        @delete="onFormCloseClick"
+        @save="onSaveClick"
+      />
     </div>
 
     <div class="layout__button">

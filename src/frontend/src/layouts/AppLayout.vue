@@ -1,5 +1,9 @@
 <template>
-  <transition name="router-view" mode="in-out" v-on:after-enter="afterEnter">
+  <transition
+    name="router-view"
+    mode="in-out"
+    @after-enter="afterEnter"
+  >
     <component :is="layout">
       <slot />
     </component>
