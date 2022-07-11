@@ -29,8 +29,8 @@
           <span>{{ user.name }}</span>
         </router-link>
         <a
-          @click.prevent="onLogoutClick"
           class="header__logout"
+          @click.prevent="onLogoutClick"
           ><span>Выйти</span></a
         >
       </template>
@@ -50,10 +50,14 @@ import { calculateOrderPrice } from "@/common/helpers/pizza.helper";
 
 export default {
   name: "AppLayoutHeader",
+
   computed: {
     ...mapState("Auth", ["user"]),
+
     ...mapState("Cart", ["clientPizzas"]),
+
     ...mapState("Cart", ["selectedMisc"]),
+
     totalPrice() {
       return calculateOrderPrice(
         this.clientPizzas,
@@ -62,8 +66,10 @@ export default {
       );
     },
   },
+
   methods: {
     ...mapActions("Auth", ["logout"]),
+
     async onLogoutClick() {
       await this.logout();
       await this.$router.push("/login");

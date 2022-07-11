@@ -5,8 +5,8 @@
       role="dialog"
     >
       <div
-        class="popup"
         ref="popup"
+        class="popup"
       >
         <a
           class="close"

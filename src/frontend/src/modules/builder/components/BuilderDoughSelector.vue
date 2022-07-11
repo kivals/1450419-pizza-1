@@ -33,13 +33,17 @@ import AppSheet from "@/common/components/AppSheet";
 
 export default {
   name: "BuilderDoughSelector",
+
   components: {
     AppSheet,
   },
+
   computed: {
     ...mapGetters("Builder", ["selectedDoughId"]),
+
     ...mapGetters(["dough"]),
   },
+
   methods: {
     ...mapActions("Builder", ["selectDough"]),
   },

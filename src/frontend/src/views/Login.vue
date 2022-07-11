@@ -10,16 +10,16 @@
       <h1 class="title title--small">Авторизуйтесь на сайте</h1>
     </div>
     <form
-      @submit.prevent="login"
       method="post"
+      @submit.prevent="login"
     >
       <div class="sign-form__input">
         <label class="input">
           <span>E-mail</span>
           <input
             ref="email"
-            type="email"
             v-model="email.value"
+            type="email"
             name="email"
             placeholder="example@mail.ru"
           />
@@ -64,6 +64,7 @@ import { validationRules } from "@/common/helpers/validate.helper";
 
 export default {
   name: "Login",
+
   data() {
     return {
       email: {
@@ -76,17 +77,31 @@ export default {
       },
     };
   },
+
   computed: {
     isShowEmailErrors() {
       return !!this.email.error;
     },
+
     isShowPasswordErrors() {
       return !!this.password.error;
     },
   },
+
+  watch: {
+    "email.value": function () {
+      this.clearValidationErrors();
+    },
+
+    "password.value": function () {
+      this.clearValidationErrors();
+    },
+  },
+
   mounted() {
     this.$refs.email.focus();
   },
+
   methods: {
     async login() {
       this.validate();
@@ -98,6 +113,7 @@ export default {
         await this.$router.push("/");
       }
     },
+
     validate() {
       if (!validationRules.required.rule(this.email.value)) {
         this.email.error = validationRules.required.message;
@@ -109,17 +125,10 @@ export default {
         this.email.error = validationRules.email.message;
       }
     },
+
     clearValidationErrors() {
       this.email.error = "";
       this.password.error = "";
-    },
-  },
-  watch: {
-    "email.value": function () {
-      this.clearValidationErrors();
-    },
-    "password.value": function () {
-      this.clearValidationErrors();
     },
   },
 };

@@ -15,12 +15,14 @@ const mainLayout = "AppLayoutMain";
 
 export default {
   name: "AppLayout",
+
   computed: {
     layout() {
       const layout = this.$route.meta.layout || mainLayout;
       return () => import(`@/layouts/${layout}.vue`);
     },
   },
+
   methods: {
     afterEnter: () => {
       window.scrollTo(0, 0);

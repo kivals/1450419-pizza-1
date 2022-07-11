@@ -27,13 +27,16 @@ import { mapActions, mapGetters } from "vuex";
 import { counterLimit } from "@/common/constants";
 export default {
   name: "BuilderIngredientItem",
+
   components: { AppDrag, ItemCounter },
+
   props: {
     ingredient: {
       type: Object,
       required: true,
     },
   },
+
   computed: {
     ...mapGetters("Builder", ["selectedIngredientsIds"]),
     ...mapGetters(["ingredientsEnum"]),
@@ -47,21 +50,26 @@ export default {
         count,
       };
     },
+
     transferData() {
       return {
         id: this.ingredientWithCount.id,
         count: this.ingredientWithCount.count + 1,
       };
     },
+
     countLimit() {
       return counterLimit.MAX;
     },
+
     isMaxLimit() {
       return this.ingredientWithCount.count >= this.countLimit;
     },
   },
+
   methods: {
     ...mapActions("Builder", ["selectIngredient"]),
+
     changeCount(count) {
       this.selectIngredient({ id: this.ingredient.id, count });
     },

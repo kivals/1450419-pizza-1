@@ -20,6 +20,7 @@ import { mapState } from "vuex";
 
 export default {
   name: "ProfileUser",
+
   computed: {
     ...mapState("Auth", ["user"]),
   },

@@ -27,8 +27,8 @@
             name="pizza_name"
             placeholder="Введите название пиццы"
             :value="pizzaName"
-            @input="changePizzaName($event.target.value)"
             data-set="change-name"
+            @input="changePizzaName($event.target.value)"
           />
         </label>
 
@@ -41,8 +41,8 @@
             type="button"
             class="button"
             :disabled="!allowToCook"
-            @click="moveToCart"
             data-set="button"
+            @click="moveToCart"
           >
             Готовьте!
           </button>
@@ -64,6 +64,7 @@ import { calculatePizzaPrice } from "@/common/helpers/pizza.helper";
 
 export default {
   name: "Index",
+
   components: {
     AppTitle,
     BuilderPriceCounter,
@@ -72,20 +73,28 @@ export default {
     BuilderSizeSelector,
     BuilderDoughSelector,
   },
+
   computed: {
     ...mapGetters(["dough"]),
+
     ...mapGetters("Builder", ["pizzaName", "hasIngredients", "hasPizzaName"]),
+
     ...mapState("Builder", ["selectedPizza"]),
+
     allowToCook() {
       return this.hasPizzaName && this.hasIngredients;
     },
+
     pizzaPrice() {
       return calculatePizzaPrice(this.$store, this.selectedPizza);
     },
   },
+
   methods: {
     ...mapActions("Builder", ["changePizzaName"]),
+
     ...mapActions("Cart", ["addToCart"]),
+
     moveToCart() {
       this.addToCart({
         ...this.selectedPizza,

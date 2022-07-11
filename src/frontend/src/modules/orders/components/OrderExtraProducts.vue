@@ -23,14 +23,17 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "OrderExtraProducts",
+
   props: {
     products: {
       type: Array,
       default: () => [],
     },
   },
+
   computed: {
     ...mapGetters(["miscEnum"]),
+
     orderedProducts() {
       return this.products.map(({ id, count }) => ({
         ...this.miscEnum[id],

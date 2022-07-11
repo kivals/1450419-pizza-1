@@ -1,7 +1,7 @@
 <template>
   <section
-    class="order"
     v-if="order"
+    class="order"
   >
     <OrderHeader
       :order-id="orderId"
@@ -11,9 +11,9 @@
 
     <ul class="order__list">
       <li
-        class="order__item"
         v-for="pizza in order.pizzas"
         :key="pizza.id"
+        class="order__item"
       >
         <AppPizzaItem
           :name="pizza.name"
@@ -43,30 +43,38 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "OrderItem",
+
   components: {
     AppPizzaItem,
     OrderHeader,
     OrderExtraProducts,
     OrderAddress,
   },
+
   props: {
     orderId: {
       type: Number,
       required: true,
     },
   },
+
   computed: {
     ...mapGetters("Orders", ["getOrderById"]),
+
     order() {
       return this.getOrderById(this.orderId);
     },
   },
+
   methods: {
     ...mapActions("Orders", ["delete"]),
+
     ...mapActions("Cart", ["backToCart"]),
+
     async deleteOrderHandler() {
       await this.delete(this.orderId);
     },
+
     repeatOrderHandler() {
       this.backToCart({
         pizzas: this.order.pizzas,

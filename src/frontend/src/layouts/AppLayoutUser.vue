@@ -19,7 +19,9 @@ import AppLayoutHeader from "@/layouts/AppLayoutHeader";
 
 export default {
   name: "AppLayoutUser",
+
   components: { AppLayoutHeader, AppLayoutSidebar },
+
   computed: {
     title() {
       return this.$route.meta.title;

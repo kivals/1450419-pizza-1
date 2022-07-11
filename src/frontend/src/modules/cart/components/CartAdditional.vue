@@ -36,10 +36,14 @@ import ItemCounter from "@/common/components/ItemCounter";
 
 export default {
   name: "CartAdditional",
+
   components: { ItemCounter },
+
   computed: {
     ...mapGetters(["misc"]),
+
     ...mapState("Cart", ["selectedMisc"]),
+
     miscWithCount() {
       return this.misc.map((miscItem) => ({
         ...miscItem,
@@ -47,6 +51,7 @@ export default {
       }));
     },
   },
+
   methods: {
     ...mapActions("Cart", ["changeMiscCount"]),
   },

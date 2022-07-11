@@ -13,6 +13,7 @@ import { titleSizes } from "@/common/constants";
 
 export default {
   name: "AppTitle",
+
   props: {
     size: {
       type: String,
@@ -21,10 +22,12 @@ export default {
         Object.values(titleSizes).some((value) => value === size),
     },
   },
+
   computed: {
     componentSize() {
       return this.size === titleSizes.BIG ? "h1" : "h2";
     },
+
     styleSize() {
       return `title__${this.size}`;
     },

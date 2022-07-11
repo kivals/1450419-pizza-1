@@ -59,9 +59,9 @@
 
       <div class="footer__submit">
         <button
-          @click.prevent="makeOrder"
           type="submit"
           class="button"
+          @click.prevent="makeOrder"
         >
           Оформить заказ
         </button>
@@ -87,6 +87,7 @@ export default {
     CartDeliveryInfo,
     SuccessPopup,
   },
+
   data() {
     return {
       address: {
@@ -95,15 +96,22 @@ export default {
         building: "",
         flat: "",
       },
+
       phone: "",
+
       isSuccessPopupVisible: false,
     };
   },
+
   computed: {
     ...mapState("Cart", ["clientPizzas", "selectedMisc"]),
+
     ...mapState("Auth", ["isAuthenticated"]),
+
     ...mapGetters("Cart", ["hasClientPizzas"]),
+
     ...mapGetters("Auth", ["getUserId"]),
+
     totalPrice() {
       return calculateOrderPrice(
         this.clientPizzas,
@@ -112,9 +120,12 @@ export default {
       );
     },
   },
+
   methods: {
     ...mapActions("Orders", ["post"]),
+
     ...mapActions("Cart", ["clearCart"]),
+
     async makeOrder() {
       if (!this.validate()) {
         return;
@@ -129,6 +140,7 @@ export default {
       await this.post(sendData);
       this.isSuccessPopupVisible = true;
     },
+
     //TODO переписать для читаемости
     validate() {
       if (!validationRules.required.rule(this.phone)) {
@@ -143,6 +155,7 @@ export default {
       }
       return true;
     },
+
     closeSuccessModal() {
       this.clearCart();
       this.isAuthenticated

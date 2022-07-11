@@ -46,15 +46,20 @@ import AppPizzaItem from "@/common/components/AppPizzaItem";
 
 export default {
   name: "CartList",
+
   components: { ItemCounter, AppPizzaItem },
+
   computed: {
     ...mapState("Cart", {
       cartPizzas: "clientPizzas",
     }),
   },
+
   methods: {
     ...mapActions("Cart", ["changePizzaCount"]),
+
     ...mapActions("Builder", ["initSelectedPizza"]),
+
     goToBuilder(pizza) {
       this.initSelectedPizza(pizza);
       this.$router.push("/");

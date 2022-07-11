@@ -14,17 +14,21 @@ import OrderItem from "@/modules/orders/components/OrderItem";
 
 export default {
   name: "Orders",
+
   components: {
     OrderItem,
   },
+
   computed: {
     ...mapState("Orders", ["orders"]),
   },
-  methods: {
-    ...mapActions("Orders", ["fetchOrders"]),
-  },
+
   async created() {
     await this.fetchOrders();
+  },
+
+  methods: {
+    ...mapActions("Orders", ["fetchOrders"]),
   },
 };
 </script>

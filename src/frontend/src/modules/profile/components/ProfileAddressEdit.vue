@@ -12,8 +12,8 @@
         <label class="input">
           <span>Название адреса*</span>
           <input
-            type="text"
             v-model="addressState.name"
+            type="text"
             name="addr-name"
             placeholder="Введите название адреса"
             required
@@ -24,8 +24,8 @@
         <label class="input">
           <span>Улица*</span>
           <input
-            type="text"
             v-model="addressState.street"
+            type="text"
             name="addr-street"
             placeholder="Введите название улицы"
             required
@@ -36,8 +36,8 @@
         <label class="input">
           <span>Дом*</span>
           <input
-            type="text"
             v-model="addressState.building"
+            type="text"
             name="addr-house"
             placeholder="Введите номер дома"
             required
@@ -48,8 +48,8 @@
         <label class="input">
           <span>Квартира</span>
           <input
-            type="text"
             v-model="addressState.flat"
+            type="text"
             name="addr-apartment"
             placeholder="Введите № квартиры"
           />
@@ -59,8 +59,8 @@
         <label class="input">
           <span>Комментарий</span>
           <input
-            type="text"
             v-model="addressState.comment"
+            type="text"
             name="addr-comment"
             placeholder="Введите комментарий"
           />
@@ -101,27 +101,32 @@ const createEmptyState = () => ({
 
 export default {
   name: "ProfileAddressEdit",
+
   props: {
     address: {
       type: Object,
       default: createEmptyState,
     },
   },
+
   data() {
     return {
       addressState: { ...this.address },
     };
   },
+
   methods: {
     onDeleteClick() {
       this.$emit("delete");
     },
+
     //TODO добавить вывод ошибок пользователю при заполнении
     onSaveClick() {
       if (this.validate()) {
         this.$emit("save", this.addressState);
       }
     },
+
     validate() {
       return (
         validationRules.required.rule(this.addressState.name) &&

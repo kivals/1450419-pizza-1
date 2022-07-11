@@ -20,12 +20,14 @@
 <script>
 export default {
   name: "ProfileAddress",
+
   props: {
     address: {
       type: Object,
       required: true,
     },
   },
+
   computed: {
     preparedAddress() {
       return {
@@ -35,6 +37,7 @@ export default {
       };
     },
   },
+
   methods: {
     onEditClick() {
       this.$emit("edit");

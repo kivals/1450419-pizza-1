@@ -45,9 +45,11 @@ import AppDrop from "@/common/components/AppDrop";
 import { mapActions, mapGetters } from "vuex";
 export default {
   name: "BuilderPizzaView",
+
   components: {
     AppDrop,
   },
+
   computed: {
     ...mapGetters("Builder", [
       "selectedDough",
@@ -55,6 +57,7 @@ export default {
       "selectedIngredients",
     ]),
   },
+
   methods: {
     ...mapActions("Builder", ["selectIngredient"]),
   },
