@@ -98,4 +98,15 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.layout__button {
+  margin-top: 40px;
+
+  button {
+    padding: 12px 23px;
+  }
+}
+.layout__address {
+  margin-top: 16px;
+}
+</style>

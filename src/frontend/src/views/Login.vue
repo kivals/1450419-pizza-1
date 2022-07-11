@@ -109,6 +109,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/scss/mixins/mixins.scss";
+.sign-form {
+  @include pf_center-all;
+
+  z-index: 10;
+
+  display: block;
+
+  box-sizing: border-box;
+  width: 455px;
+  padding-top: 146px;
+  padding-right: 32px;
+  padding-bottom: 32px;
+  padding-left: 32px;
+
+  background: $white url("~@/assets/img/popup.svg") no-repeat center top;
+  box-shadow: $shadow-light;
+
+  button {
+    margin: 0 auto;
+    padding: 16px 14px;
+  }
+}
+
+.sign-form__title {
+  margin-bottom: 24px;
+
+  text-align: center;
+}
+
+.sign-form__input {
+  margin-bottom: 16px;
+}
+
 .sign-form__error {
   color: $red-900;
 }
